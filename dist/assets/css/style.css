@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Neue Haas Grotesk';
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4');
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4#iefix') format('embedded-opentype'),
+         url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
+         url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk';
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4');
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4#iefix') format('embedded-opentype'),
+         url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
+         url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
+    font-style: normal;
+    font-weight: bold;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: white;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+* {
+    outline: none;
+    border: none;
+}
+
+a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover, a:focus {
+    border-bottom: 2px solid rgba(255, 255, 255, 1);
+}

@@ -1,0 +1,43 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "defer": true,
+    "getURL": true,
+    "Config": true,
+    "Global": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": [
+      "error",
+      4,
+      { "SwitchCase": 1 }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "key-spacing": [
+      "error",
+      { "mode": "minimum" }
+    ]
+  }
+}

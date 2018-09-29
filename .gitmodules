@@ -1,0 +1,4 @@
+[submodule "alien.js"]
+	path = alien.js
+	url = https://github.com/pschroen/alien.js
+	branch = master
