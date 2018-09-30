@@ -276,7 +276,7 @@ class AlienKitty extends Interface {
 
         function initHTML() {
             self.size(90, 86).css({ opacity: 0, overflow: 'hidden' });
-            alienkitty = self.create('.alienkitty').size(90, 86);
+            alienkitty = self.create('.alienkitty').size(90, 86).transform({ y: 86 });
             eyelid1 = alienkitty.create('.eyelid1').size(24, 14).css({ left: 35, top: 25 }).transformPoint('50%', 0).transform({ scaleX: 1.5, scaleY: 0.01 });
             eyelid2 = alienkitty.create('.eyelid2').size(24, 14).css({ left: 53, top: 26 }).transformPoint(0, 0).transform({ scaleX: 1, scaleY: 0.01 });
         }
@@ -323,7 +323,7 @@ class AlienKitty extends Interface {
         this.animateIn = () => {
             blink();
             this.tween({ opacity: 1 }, 1000, 'easeOutSine');
-            alienkitty.transform({ y: 86 }).tween({ y: 0 }, 1000, 'easeOutCubic', 500);
+            alienkitty.tween({ y: 0 }, 1000, 'easeOutCubic', 500);
         };
 
         this.animateOut = callback => {
@@ -369,10 +369,7 @@ class Loader extends Interface {
             Promise.all([
                 FontLoader.loadFonts([
                     { font: 'Neue Haas Grotesk', style: 'normal', weight: 'normal' },
-                    { font: 'Neue Haas Grotesk', style: 'normal', weight: 'bold' },
-                    //{ font: 'Roboto', weight: '400' },
-                    //{ font: 'Roboto', weight: '700' },
-                    //'Roboto Mono'
+                    { font: 'Neue Haas Grotesk', style: 'normal', weight: 'bold' }
                 ]),
                 AssetLoader.loadAssets([`assets/data/config.json?${Utils.timestamp()}`])
             ]).then(loadComplete);
