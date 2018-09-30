@@ -29,7 +29,8 @@ export default {
         uglify({
             output: {
                 preamble: `//   _  /._  _  r${pkg.version.split('.')[1]}.${project} ${timestamp()}\n//  /_|///_'/ /`
-            }
+            },
+            safari10: true
         })
     ]
 };
