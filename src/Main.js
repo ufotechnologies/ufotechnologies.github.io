@@ -4,7 +4,7 @@
  * @author Patrick Schroen / https://github.com/pschroen
  */
 
-import { Events, Stage, Interface, Device, Utils, Assets, AssetLoader, FontLoader } from '../alien.js/src/Alien.js';
+import { Events, Stage, Interface, Device, Utils, Assets, AssetLoader, FontLoader, TweenManager } from '../alien.js/src/Alien.js';
 import {  } from './Config';
 
 
@@ -136,10 +136,10 @@ class NavTitle extends Interface {
     }
 }
 
-class NavView extends Interface {
+class NavPage extends Interface {
 
     constructor() {
-        super('NavView');
+        super('NavPage');
         const self = this;
         let alienkitty;
 
@@ -185,16 +185,15 @@ class NavView extends Interface {
 
         this.animateIn = () => {
         };
-
-        this.activate = () => {
-        };
     }
 }
 
-class Nav extends Interface {
+window.NavPage = NavPage;
 
-    constructor() {
-        super('Nav');
+class PageView extends Interface {
+
+    constructor(data) {
+        super('PageView');
         const self = this;
         let view;
 
@@ -202,7 +201,134 @@ class Nav extends Interface {
         initView();
 
         function initHTML() {
-            self.size('100%').mouseEnabled(false);
+            self.size('100%', 'auto');
+            self.css({
+                position: 'relative',
+                overflow: 'hidden'
+            });
+            self.bg('#111');
+        }
+
+        function initView() {
+            view = self.initClass(window[data.view], data);
+        }
+
+        this.resize = () => {
+            if (!data.overflow) this.size('100%', window.innerHeight < 520 ? 520 : window.innerHeight);
+            if (view.resize) view.resize();
+        };
+
+        this.animateIn = () => {
+            if (this.isVisible) return;
+            this.isVisible = true;
+            if (view.animateIn) view.animateIn();
+        };
+    }
+}
+
+class Page extends Interface {
+
+    constructor(data) {
+        super('Page');
+        const self = this;
+        let pages;
+
+        initContainer();
+        initViews();
+
+        function initContainer() {
+            self.size('100%');
+            self.inner = self.create('.inner');
+            self.inner.size('100%', 'auto');
+            self.inner.css({
+                position: 'relative',
+                display: 'block'
+            });
+        }
+
+        function initViews() {
+            pages = [];
+            for (let i = 0; i < data.config.length; i++) {
+                if (data.overflow) data.config[i].overflow = data.overflow;
+                const page = self.inner.initClass(PageView, data.config[i]);
+                page.index = i;
+                pages.push(page);
+            }
+            self.index = 0;
+        }
+
+        function checkPosition() {
+            const scrollElement = document.scrollingElement || document.documentElement,
+                scrolled = scrollElement.scrollTop + window.innerHeight;
+            for (let i = 0; i < pages.length; i++) {
+                const start = pages[i].element.offsetTop,
+                    current = scrolled - start,
+                    end = start + window.innerHeight * 2;
+                if (scrolled > start && scrolled < end) {
+                    const percent = current / (window.innerHeight * 2);
+                    if (percent > 0.25 && percent < 0.75) {
+                        if (!pages[i].isVisible) pages[i].animateIn();
+                        self.index = i;
+                    }
+                }
+            }
+        }
+
+        function loop() {
+            checkPosition();
+        }
+
+        function checkHeight() {
+            self.height = self.inner.element.offsetHeight;
+            self.css({ height: self.height });
+            let parent = self.parent;
+            while (parent) {
+                parent.css({ height: self.height });
+                parent = parent.parent;
+            }
+        }
+
+        this.resize = () => {
+            for (let i = 0; i < pages.length; i++) pages[i].resize();
+            defer(checkHeight);
+        };
+
+        this.change = e => {
+            const scrollElement = document.scrollingElement || document.documentElement;
+            TweenManager.tween(scrollElement, { scrollTop: pages[e.innerPage].element.offsetTop }, 700, 'wipe');
+        };
+
+        this.animateIn = (direction, init) => {
+            defer(() => {
+                checkHeight();
+                const scrollElement = document.scrollingElement || document.documentElement;
+                scrollElement.scrollTop = pages[this.index].element.offsetTop;
+                pages[this.index].animateIn();
+                if (!init) this.transform({ y: window.innerHeight * direction }).tween({ y: 0 }, 700, 'wipe');
+                else this.css({ opacity: 0 }).tween({ opacity: 1 }, 400, 'easeOutCubic', () => this.clearOpacity());
+                this.startRender(loop);
+            });
+        };
+
+        this.animateOut = (direction, callback) => {
+            this.tween({ opacity: 0 }, 400, 'easeInCubic');
+            this.delayedCall(callback, 1000);
+        };
+    }
+}
+
+class Pages extends Interface {
+
+    constructor() {
+        super('Pages');
+        const self = this;
+        let page, next, data,
+            direction = 1;
+
+        initContainer();
+
+        function initContainer() {
+            self.size('100%');
             self.css({
                 height: '',
                 position: 'relative',
@@ -210,15 +336,32 @@ class Nav extends Interface {
             });
         }
 
-        function initView() {
-            view = self.initClass(NavView);
+        function animateIn() {
+            if (page) {
+                page.animateOut(direction, () => {
+                    page = page.destroy();
+                    page = next;
+                });
+            } else {
+                page = next;
+            }
+            next.animateIn(direction, data.init);
+            data.init = false;
         }
 
-        this.resize = () => view.resize();
+        this.resize = () => {
+            if (page) page.resize();
+        };
 
-        this.animateIn = () => view.animateIn();
-
-        this.change = () => view.activate();
+        this.change = e => {
+            data = e;
+            direction = data.direction || direction;
+            next = this.initClass(Page, data);
+            if (page) page.setZ(1);
+            next.setZ(5);
+            next.resize();
+            animateIn();
+        };
     }
 }
 
@@ -232,10 +375,10 @@ class Container extends Interface {
     constructor() {
         super('Container');
         const self = this;
-        let nav;
+        let pages;
 
         initContainer();
-        initViews();
+        initControllers();
         addListeners();
 
         function initContainer() {
@@ -248,20 +391,23 @@ class Container extends Interface {
             Stage.add(self);
         }
 
-        function initViews() {
-            nav = self.initClass(Nav);
+        function initControllers() {
+            pages = self.initClass(Pages);
         }
 
         function addListeners() {
             self.events.add(Events.RESIZE, resize);
+            self.events.add(Events.PAGE_CHANGE, pageChange);
             resize();
         }
 
         function resize() {
-            nav.resize();
+            pages.resize();
         }
 
-        this.showNav = () => nav.animateIn();
+        function pageChange(e) {
+            pages.change(e);
+        }
     }
 }
 
@@ -422,7 +568,8 @@ class Main {
             if (loader.loaded && Stage.loaded) {
                 loader.animateOut(() => {
                     loader = loader.destroy();
-                    Container.instance().showNav();
+                    Container.instance();
+                    Stage.events.fire(Events.PAGE_CHANGE, Config.PAGES[0]);
                 });
             }
         }
