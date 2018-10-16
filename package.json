@@ -15,6 +15,7 @@
   "devDependencies": {
     "concurrently": "^4.0.1",
     "eslint": "^5.5.0",
+    "glsl-noise": "0.0.0",
     "replace": "^1.0.0",
     "rollup": "0.55.3",
     "rollup-plugin-bundleutils": "^1.0.7",

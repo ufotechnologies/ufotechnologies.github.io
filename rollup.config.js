@@ -1,6 +1,6 @@
 import { timestamp, uglify } from 'rollup-plugin-bundleutils';
 
-//import glslify from 'rollup-plugin-glslify';
+import glslify from 'rollup-plugin-glslify';
 import { eslint } from 'rollup-plugin-eslint';
 
 import path from 'path';
@@ -24,7 +24,7 @@ export default {
         format: 'es'
     },
     plugins: [
-        //glslify({ basedir: 'src/shaders' }),
+        glslify({ basedir: 'src/shaders' }),
         eslint(),
         uglify({
             output: {

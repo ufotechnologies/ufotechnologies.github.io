@@ -6,18 +6,14 @@
 
 @font-face {
     font-family: 'Neue Haas Grotesk';
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4');
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4#iefix') format('embedded-opentype'),
-         url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
          url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
     font-style: normal;
     font-weight: normal;
 }
 @font-face {
     font-family: 'Neue Haas Grotesk';
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4');
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/eot/?afa76983d27a4cca21bc35b44a6c6279c6250cd4#iefix') format('embedded-opentype'),
-         url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
+    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
          url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
     font-style: normal;
     font-weight: bold;
