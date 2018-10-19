@@ -26,6 +26,7 @@ Config.PAGES = [
 Events.PAGE_CHANGE = 'page_change';
 Events.GLITCH_IN = 'glitch_in';
 Events.GLITCH_OUT = 'glitch_out';
+Events.GLITCH_LOADER = 'glitch_loader';
 
 TweenManager.CSS_EASES.wipe = Device.mobile
     ? 'cubic-bezier(0.210, 0.280, 0.170, 1.000)'

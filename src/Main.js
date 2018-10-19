@@ -442,7 +442,7 @@ class CanvasGridTexture extends Component {
             alienkitty = self.initClass(AlienKittyCanvas);
             self.alienkitty = alienkitty;
             alienkittygraphics = self.initClass(CanvasTexture, alienkitty.element, 90, 86);
-            alienkittygraphics.opacity = 0;
+            alienkittygraphics.opacity = 1;
             canvas.add(alienkittygraphics);
         }
 
@@ -486,7 +486,7 @@ class CanvasGridTexture extends Component {
         this.hideAlienKitty = () => {
             Timer.clearTimeout(timeout);
             this.needsUpdate = true;
-            TweenManager.tween(alienkittygraphics, { opacity: 0 }, 300, 'easeOutSine');
+            TweenManager.tween(alienkittygraphics, { opacity: 0 }, 250, 'easeOutSine');
             timeout = this.delayedCall(() => this.needsUpdate = false, 500);
         };
 
@@ -603,7 +603,7 @@ class World extends Component {
     constructor() {
         super();
         const self = this;
-        const multiplier = Device.mobile ? 3 : 1;
+        const multiplier = Device.mobile ? 2 : 1;
         let renderer, scene, camera, effects, badtv, rgb, timeout;
 
         World.dpr = Math.min(2, Device.pixelRatio);
@@ -650,13 +650,13 @@ class World extends Component {
             effects.add(badtv);
             effects.add(rgb);
             World.effects = effects;
-            World.effects.enabled = false;
         }
 
         function addListeners() {
             self.events.add(Events.RESIZE, resize);
             self.events.add(Events.GLITCH_IN, glitchIn);
             self.events.add(Events.GLITCH_OUT, glitchOut);
+            self.events.add(Events.GLITCH_LOADER, glitchLoader);
             resize();
         }
 
@@ -691,6 +691,13 @@ class World extends Component {
             TweenManager.tween(badtv.uniforms.distortion2, { value: 0 }, 300, 'easeOutSine');
             TweenManager.tween(rgb.uniforms.distortion, { value: 0 }, 300, 'easeOutSine');
             timeout = self.delayedCall(() => World.effects.enabled = false, 500);
+        }
+
+        function glitchLoader() {
+            TweenManager.tween(badtv.uniforms.distortion, { value: 4 * multiplier }, 300, 'easeInOutExpo');
+            TweenManager.tween(badtv.uniforms.distortion2, { value: 1 * multiplier }, 300, 'easeInOutExpo');
+            TweenManager.tween(rgb.uniforms.distortion, { value: 0.01 * multiplier }, 300, 'easeInOutExpo');
+            timeout = self.delayedCall(() => self.events.fire(Events.GLITCH_OUT), 500);
         }
 
         function loop(t, delta) {
@@ -893,7 +900,7 @@ class Loader extends Interface {
         }
 
         this.animateOut = callback => {
-            this.tween({ opacity: 0 }, 500, 'easeInOutQuad', callback);
+            this.tween({ opacity: 0 }, 50, 'easeInOutExpo', callback);
         };
     }
 }
@@ -923,7 +930,7 @@ class Main {
         function initLoader() {
             loader = Stage.initClass(Loader);
             Stage.events.add(loader, Events.COMPLETE, initContainer);
-            Stage.delayedCall(init, 3000);
+            Stage.delayedCall(init, 2000);
         }
 
         function initContainer() {
@@ -941,10 +948,13 @@ class Main {
 
         function complete() {
             if (loader.loaded && Stage.loaded) {
-                loader.animateOut(() => {
-                    loader = loader.destroy();
-                    Stage.events.fire(Events.PAGE_CHANGE, Config.PAGES[0]);
-                });
+                Stage.delayedCall(() => {
+                    loader.animateOut(() => {
+                        loader = loader.destroy();
+                        Stage.events.fire(Events.PAGE_CHANGE, Config.PAGES[0]);
+                    });
+                    Stage.events.fire(Events.GLITCH_LOADER);
+                }, 1000);
             }
         }
     }
