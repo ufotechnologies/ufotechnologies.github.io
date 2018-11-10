@@ -8,7 +8,6 @@
 
 import { Timer, Events, Stage, Interface, Component, Canvas, CanvasGraphics, CanvasTexture, Device, Utils,
     Assets, AssetLoader, FontLoader, TweenManager, Shader, Effects } from '../alien.js/src/Alien.js';
-import {  } from './Config';
 
 import vertBasicShader from './shaders/basic_shader.vert';
 import fragBasicShader from './shaders/basic_shader.frag';
@@ -17,20 +16,62 @@ import fragBadTV from './shaders/post/badtv.frag';
 import vertRGB from './shaders/post/rgb.vert';
 import fragRGB from './shaders/post/rgb.frag';
 
+Config.UI_OFFSET = Device.phone ? 20 : 80;
 
-class GridPage extends Interface {
+Config.ASSETS = [
+    'assets/js/lib/three.min.js'
+];
+
+Events.GLITCH_IN = 'glitch_in';
+Events.GLITCH_OUT = 'glitch_out';
+Events.GLITCH_LOADER = 'glitch_loader';
+
+
+class GridLayout extends Interface {
 
     constructor() {
-        super('GridPage');
+        super('GridLayout');
         const self = this;
+        let pos = 0,
+            last = 0,
+            delta = 0;
 
         initHTML();
+        this.startRender(loop);
 
         function initHTML() {
             self.css({
-                position: 'relative',
-                display: 'block'
+                position: 'relative'
             });
+        }
+
+        function checkPosition() {
+            const scrollElement = document.scrollingElement || document.documentElement,
+                scrolled = scrollElement.scrollTop + window.innerHeight;
+            pos = scrollElement.scrollTop;
+            delta = pos - last;
+            last = pos;
+            const start = self.element.offsetTop,
+                current = scrolled - start,
+                end = start + window.innerHeight * 2;
+            if (scrolled > start && scrolled < end) {
+                const percent = current / (window.innerHeight * 2);
+                if (percent > 0.25 && percent < 0.75) {
+                    if (!self.animatedIn) {
+                        self.animatedIn = true;
+                        self.animateIn(delta);
+                    }
+                } else {
+                    if (self.animatedIn) {
+                        self.animatedIn = false;
+                        self.animateOut(delta);
+                    }
+                }
+            }
+        }
+
+        function loop() {
+            checkPosition();
         }
 
         this.resize = () => {
@@ -46,8 +87,6 @@ class GridPage extends Interface {
         };
     }
 }
-
-window.GridPage = GridPage;
 
 class NavLink extends Interface {
 
@@ -124,22 +163,28 @@ class NavLinks extends Interface {
         initLinks();
 
         function initHTML() {
-            self.size('100%');
+            self.size('100%', 'auto');
             self.css({
-                height: '',
-                position: 'relative',
-                display: 'block'
+                position: 'relative'
             });
         }
 
         function initLinks() {
-            Assets.getData('config').forEach(createLink);
-            links.forEach((link, i) => link.transform({ y: 50 }).css({ opacity: 0 }).tween({ y: 0, opacity: 1 }, 1000, 'easeOutCubic', 3500 + i * 80));
+            Config.DATA.forEach(createLink);
+            links.forEach(link => {
+                link.transform({ y: 50 }).css({ opacity: 0 });
+            });
         }
 
         function createLink(link) {
             links.push(self.initClass(NavLink, link));
         }
+
+        this.animateIn = () => {
+            links.forEach((link, i) => {
+                link.tween({ y: 0, opacity: 1 }, 1000, 'easeOutCubic', 3500 + i * 80);
+            });
+        };
     }
 }
 
@@ -168,238 +213,56 @@ class NavTitle extends Interface {
             });
             title.text('Hello, I’m Patrick, a Web 3.0 technologist based in Toronto, Canada.');
             words = title.split(' ');
-            words.forEach((word, i) => {
+            words.forEach(word => {
                 word.css({ overflow: 'hidden' });
-                word = word.split(' ')[0];
-                word.transform({ y: 50 }).tween({ y: 0 }, 1000, 'easeOutCubic', 500 + i * 80);
+                word.inner = word.split(' ')[0];
+                word.inner.transform({ y: 50 });
             });
         }
+
+        this.animateIn = () => {
+            words.forEach((word, i) => {
+                word.inner.tween({ y: 0 }, 1000, 'easeOutCubic', 500 + i * 80);
+            });
+        };
     }
 }
 
-class NavPage extends Interface {
+class NavLayout extends Interface {
 
     constructor() {
-        super('NavPage');
+        super('NavLayout');
         const self = this;
+        let title, links;
 
         initHTML();
         initViews();
 
         function initHTML() {
-            self.size(Device.phone ? 'auto' : '55%');
+            self.size(Device.phone ? 'auto' : '55%', 'auto');
             self.css({
-                height: '',
                 position: 'relative',
-                display: 'block',
-                marginLeft: Device.phone ? Config.UI_OFFSET - 5 : Config.UI_OFFSET,
                 marginTop: Device.phone ? Config.UI_OFFSET : Config.UI_OFFSET - 5,
-                marginRight: Device.phone ? Config.UI_OFFSET + 5 : 0
+                marginLeft: Device.phone ? Config.UI_OFFSET - 5 : Config.UI_OFFSET,
+                marginRight: Device.phone ? Config.UI_OFFSET + 5 : 0,
+                marginBottom: Config.UI_OFFSET
             });
         }
 
         function initViews() {
-            self.initClass(NavTitle);
-            self.initClass(NavLinks);
+            title = self.initClass(NavTitle);
+            links = self.initClass(NavLinks);
         }
 
         this.resize = () => {
         };
 
         this.animateIn = () => {
+            title.animateIn();
+            links.animateIn();
         };
 
         this.animateOut = () => {
-        };
-    }
-}
-
-window.NavPage = NavPage;
-
-class PageView extends Interface {
-
-    constructor(data) {
-        super('PageView');
-        const self = this;
-        let view;
-
-        initHTML();
-        initView();
-
-        function initHTML() {
-            self.size('100%', 'auto');
-            self.css({
-                position: 'relative',
-                overflow: 'hidden'
-            });
-        }
-
-        function initView() {
-            view = self.initClass(window[data.view], data);
-        }
-
-        this.resize = () => {
-            if (!data.overflow) this.size('100%', window.innerHeight);
-            if (view.resize) view.resize();
-        };
-
-        this.animateIn = delta => {
-            if (this.isVisible) return;
-            this.isVisible = true;
-            if (view.animateIn) view.animateIn(delta);
-        };
-
-        this.animateOut = delta => {
-            if (!this.isVisible) return;
-            this.isVisible = false;
-            if (view.animateOut) view.animateOut(delta);
-        };
-    }
-}
-
-class Page extends Interface {
-
-    constructor(data) {
-        super('Page');
-        const self = this;
-        let pages,
-            pos = 0,
-            last = 0,
-            delta = 0;
-
-        initContainer();
-        initViews();
-
-        function initContainer() {
-            self.size('100%');
-            self.inner = self.create('.inner');
-            self.inner.size('100%', 'auto');
-            self.inner.css({
-                position: 'relative',
-                display: 'block'
-            });
-        }
-
-        function initViews() {
-            pages = [];
-            for (let i = 0; i < data.config.length; i++) {
-                if (data.overflow) data.config[i].overflow = data.overflow;
-                const page = self.inner.initClass(PageView, data.config[i]);
-                page.index = i;
-                pages.push(page);
-            }
-            self.index = 0;
-        }
-
-        function checkPosition() {
-            const scrollElement = document.scrollingElement || document.documentElement,
-                scrolled = scrollElement.scrollTop + window.innerHeight;
-            pos = scrollElement.scrollTop;
-            delta = pos - last;
-            last = pos;
-            for (let i = 0; i < pages.length; i++) {
-                const start = pages[i].element.offsetTop,
-                    current = scrolled - start,
-                    end = start + window.innerHeight * 2;
-                if (scrolled > start && scrolled < end) {
-                    const percent = current / (window.innerHeight * 2);
-                    if (percent > 0.25 && percent < 0.75) {
-                        if (!pages[i].isVisible) pages[i].animateIn(delta);
-                        self.index = i;
-                    } else {
-                        if (pages[i].isVisible) pages[i].animateOut(delta);
-                    }
-                }
-            }
-        }
-
-        function loop() {
-            checkPosition();
-        }
-
-        function checkHeight() {
-            self.height = self.inner.element.offsetHeight;
-            self.css({ height: self.height });
-            let parent = self.parent;
-            while (parent) {
-                parent.css({ height: self.height });
-                parent = parent.parent;
-            }
-        }
-
-        this.resize = () => {
-            for (let i = 0; i < pages.length; i++) pages[i].resize();
-            defer(checkHeight);
-        };
-
-        this.change = e => {
-            const scrollElement = document.scrollingElement || document.documentElement;
-            TweenManager.tween(scrollElement, { scrollTop: pages[e.innerPage].element.offsetTop }, 700, 'wipe');
-        };
-
-        this.animateIn = (direction, init) => {
-            defer(() => {
-                checkHeight();
-                const scrollElement = document.scrollingElement || document.documentElement;
-                scrollElement.scrollTop = pages[this.index].element.offsetTop;
-                pages[this.index].animateIn();
-                if (!init) this.transform({ y: window.innerHeight * direction }).tween({ y: 0 }, 700, 'wipe');
-                else this.css({ opacity: 0 }).tween({ opacity: 1 }, 400, 'easeOutCubic', () => this.clearOpacity());
-                this.startRender(loop);
-            });
-        };
-
-        this.animateOut = (direction, callback) => {
-            this.tween({ opacity: 0 }, 400, 'easeInCubic');
-            this.delayedCall(callback, 1000);
-        };
-    }
-}
-
-class Pages extends Interface {
-
-    constructor() {
-        super('Pages');
-        const self = this;
-        let page, next, data,
-            direction = 1;
-
-        initContainer();
-
-        function initContainer() {
-            self.size('100%');
-            self.css({
-                height: '',
-                position: 'relative',
-                display: 'block'
-            });
-        }
-
-        function animateIn() {
-            if (page) {
-                page.animateOut(direction, () => {
-                    page = page.destroy();
-                    page = next;
-                });
-            } else {
-                page = next;
-            }
-            next.animateIn(direction, data.init);
-            data.init = false;
-        }
-
-        this.resize = () => {
-            if (page) page.resize();
-        };
-
-        this.change = e => {
-            data = e;
-            direction = data.direction || direction;
-            next = this.initClass(Page, data);
-            if (page) page.setZ(1);
-            next.setZ(5);
-            next.resize();
-            animateIn();
         };
     }
 }
@@ -576,7 +439,7 @@ class Scene extends Component {
             self.events.add(Events.GLITCH_OUT, glitchOut);
         }
 
-        function glitchIn(delta) {
+        function glitchIn(delta = 0) {
             const time = Math.range(delta, 0, 400, 300, 50);
             grid.showAlienKitty(time);
         }
@@ -671,7 +534,7 @@ class World extends Component {
             World.resolution.value.set(window.innerWidth * World.dpr, window.innerHeight * World.dpr);
         }
 
-        function glitchIn(delta) {
+        function glitchIn(delta = 0) {
             const time = Math.range(delta, 0, 400, 300, 50);
             Timer.clearTimeout(timeout);
             World.effects.enabled = true;
@@ -717,45 +580,37 @@ class Container extends Interface {
     constructor() {
         super('Container');
         const self = this;
-        let scene, pages;
+        let scene, nav, grid;
 
         initContainer();
-        initControllers();
+        initViews();
         addListeners();
 
         function initContainer() {
-            self.size('100%');
-            self.css({
-                height: '',
-                position: 'relative',
-                display: 'block'
-            });
+            self.size('100%', 'auto');
             Stage.add(self);
-        }
-
-        function initControllers() {
             World.instance();
             self.add(World);
+        }
+
+        function initViews() {
             scene = self.initClass(Scene);
-            pages = self.initClass(Pages);
+            nav = self.initClass(NavLayout);
+            grid = self.initClass(GridLayout);
+            self.scene = scene;
+            self.nav = nav;
         }
 
         function addListeners() {
             self.events.add(Events.RESIZE, resize);
-            self.events.add(Events.PAGE_CHANGE, pageChange);
             resize();
         }
 
         function resize() {
             scene.resize();
-            pages.resize();
+            nav.resize();
+            grid.resize();
         }
-
-        function pageChange(e) {
-            pages.change(e);
-        }
-
-        this.animateIn = scene.animateIn;
 
         this.preload = scene.ready;
     }
@@ -856,8 +711,8 @@ class Loader extends Interface {
             self.size('100%').setZ(1).mouseEnabled(false);
             self.css({
                 position: 'fixed',
-                left: 0,
                 top: 0,
+                left: 0,
                 overflow: 'hidden'
             });
             self.bg('#111');
@@ -879,7 +734,7 @@ class Loader extends Interface {
         }
 
         function initLoader() {
-            Config.ASSETS.push(`assets/data/config.json?${Utils.timestamp()}`);
+            Config.ASSETS.push(`assets/data/data.json?${Utils.timestamp()}`);
             Promise.all([
                 FontLoader.loadFonts([
                     { font: 'Neue Haas Grotesk', style: 'normal', weight: 'normal' },
@@ -890,11 +745,12 @@ class Loader extends Interface {
         }
 
         function loadComplete() {
+            Config.DATA = Assets.getData('data');
             Container.instance().preload().then(complete);
         }
 
         function complete() {
-            Container.instance().animateIn();
+            Container.instance().scene.animateIn();
             self.loaded = true;
             self.events.fire(Events.COMPLETE);
         }
@@ -918,13 +774,9 @@ class Main {
         addListeners();
 
         function initStage() {
-            Stage.size('100%');
-            Stage.css({
-                height: '',
-                position: 'relative',
-                display: 'block'
-            });
-            Stage.element.scrollParent = true;
+            Stage.allowScroll();
+            Stage.css({ position: '', overflow: '' });
+            window.history.scrollRestoration = 'manual';
         }
 
         function initLoader() {
@@ -951,7 +803,7 @@ class Main {
                 Stage.delayedCall(() => {
                     loader.animateOut(() => {
                         loader = loader.destroy();
-                        Stage.events.fire(Events.PAGE_CHANGE, Config.PAGES[0]);
+                        Container.instance().nav.animateIn();
                     });
                     Stage.events.fire(Events.GLITCH_LOADER);
                 }, 1000);
