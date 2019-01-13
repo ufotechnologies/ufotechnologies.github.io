@@ -19,18 +19,26 @@
     font-weight: bold;
 }
 
-body, html {
+body, html, #Stage {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: auto;
     background: #111;
     color: white;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 }
+
 * {
+    position: absolute;
     outline: none;
     border: none;
+}
+
+span, br, a {
+    position: relative;
 }
 
 a {
@@ -38,6 +46,7 @@ a {
     text-decoration: none;
     font-weight: bold;
 }
+
 a:hover, a:focus {
     border-bottom: 2px solid rgba(255, 255, 255, 1);
 }

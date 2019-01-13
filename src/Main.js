@@ -4,10 +4,10 @@
  * @author Patrick Schroen / https://github.com/pschroen
  */
 
-/* global THREE */
+import * as THREE from 'three';
 
-import { Timer, Events, Stage, Interface, Component, Canvas, CanvasGraphics, CanvasTexture, Device, Utils,
-    Assets, AssetLoader, FontLoader, TweenManager, Shader, Effects } from '../alien.js/src/Alien.js';
+import { Events, Stage, Interface, Component, Canvas, CanvasGraphics, CanvasTexture, Device, Utils,
+    Assets, AssetLoader, FontLoader, Shader, Effects } from '../alien.js/src/Alien.js';
 
 import vertBasicShader from './shaders/basic_shader.vert';
 import fragBasicShader from './shaders/basic_shader.frag';
@@ -285,7 +285,8 @@ class CanvasGridTexture extends Component {
             canvas = self.initClass(Canvas, window.innerWidth, window.innerHeight, true, true);
             self.canvas = canvas;
             texture = new THREE.Texture(canvas.element);
-            texture.minFilter = THREE.LinearFilter;
+            texture.minFilter = texture.magFilter = THREE.LinearFilter;
+            texture.generateMipmaps = false;
             self.texture = texture;
         }
 
@@ -340,16 +341,16 @@ class CanvasGridTexture extends Component {
         };
 
         this.showAlienKitty = time => {
-            Timer.clearTimeout(timeout);
+            this.clearTimeout(timeout);
             this.needsUpdate = true;
-            TweenManager.tween(alienkittygraphics, { opacity: 1 }, time, 'easeInOutExpo');
+            tween(alienkittygraphics, { opacity: 1 }, time, 'easeInOutExpo');
             timeout = this.delayedCall(() => this.needsUpdate = false, 500);
         };
 
         this.hideAlienKitty = () => {
-            Timer.clearTimeout(timeout);
+            this.clearTimeout(timeout);
             this.needsUpdate = true;
-            TweenManager.tween(alienkittygraphics, { opacity: 0 }, 250, 'easeOutSine');
+            tween(alienkittygraphics, { opacity: 0 }, 250, 'easeOutSine');
             timeout = this.delayedCall(() => this.needsUpdate = false, 500);
         };
 
@@ -378,14 +379,14 @@ class CanvasGrid extends Component {
         function initMesh() {
             self.object3D.visible = false;
             shader = self.initClass(Shader, vertBasicShader, fragBasicShader, {
-                time: World.time,
-                resolution: World.resolution,
-                texture: { value: grid.texture },
-                opacity: { value: 0 },
+                uTime: World.time,
+                uResolution: World.resolution,
+                uTexture: { value: grid.texture },
+                uAlpha: { value: 0 },
                 depthWrite: false,
                 depthTest: false
             });
-            mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), shader.material);
+            mesh = new THREE.Mesh(World.quad, shader.material);
             self.object3D.add(mesh);
         }
 
@@ -485,6 +486,7 @@ class World extends Component {
             World.renderer = renderer;
             World.element = renderer.domElement;
             World.camera = camera;
+            World.quad = new THREE.PlaneBufferGeometry(1, 1);
             World.time = { value: 0 };
             World.resolution = { value: new THREE.Vector2() };
             effects = self.initClass(Effects, Stage, {
@@ -494,19 +496,19 @@ class World extends Component {
                 dpr: World.dpr
             });
             badtv = self.initClass(Shader, vertBadTV, fragBadTV, {
-                time: World.time,
-                resolution: World.resolution,
-                texture: { type: 't', value: null },
-                distortion: { value: 0 },
-                distortion2: { value: 0 },
+                uTime: World.time,
+                uResolution: World.resolution,
+                tDiffuse: { type: 't', value: null },
+                uDistortion: { value: 0 },
+                uDistortion2: { value: 0 },
                 depthWrite: false,
                 depthTest: false
             });
             rgb = self.initClass(Shader, vertRGB, fragRGB, {
-                time: World.time,
-                resolution: World.resolution,
-                texture: { type: 't', value: null },
-                distortion: { value: 0 },
+                uTime: World.time,
+                uResolution: World.resolution,
+                tDiffuse: { type: 't', value: null },
+                uDistortion: { value: 0 },
                 depthWrite: false,
                 depthTest: false
             });
@@ -536,30 +538,30 @@ class World extends Component {
 
         function glitchIn(delta = 0) {
             const time = Math.range(delta, 0, 400, 300, 50);
-            Timer.clearTimeout(timeout);
+            self.clearTimeout(timeout);
             World.effects.enabled = true;
-            TweenManager.tween(badtv.uniforms.distortion, { value: Math.range(delta, 0, 400, 0, 8) * multiplier }, time, 'easeInOutExpo');
-            TweenManager.tween(badtv.uniforms.distortion2, { value: Math.range(delta, 0, 400, 0, 2) * multiplier }, time, 'easeInOutExpo');
-            TweenManager.tween(rgb.uniforms.distortion, { value: Math.range(delta, 0, 400, 0, 0.02) * multiplier }, time, 'easeInOutExpo');
+            tween(badtv.uniforms.uDistortion, { value: Math.range(delta, 0, 400, 0, 8) * multiplier }, time, 'easeInOutExpo');
+            tween(badtv.uniforms.uDistortion2, { value: Math.range(delta, 0, 400, 0, 2) * multiplier }, time, 'easeInOutExpo');
+            tween(rgb.uniforms.uDistortion, { value: Math.range(delta, 0, 400, 0, 0.02) * multiplier }, time, 'easeInOutExpo');
             timeout = self.delayedCall(() => {
-                TweenManager.tween(badtv.uniforms.distortion, { value: 1 * multiplier }, 300, 'easeInOutExpo');
-                TweenManager.tween(badtv.uniforms.distortion2, { value: 1 * multiplier }, 300, 'easeInOutExpo');
-                TweenManager.tween(rgb.uniforms.distortion, { value: 0.002 * multiplier }, 300, 'easeInOutExpo');
+                tween(badtv.uniforms.uDistortion, { value: 1 * multiplier }, 300, 'easeInOutExpo');
+                tween(badtv.uniforms.uDistortion2, { value: 1 * multiplier }, 300, 'easeInOutExpo');
+                tween(rgb.uniforms.uDistortion, { value: 0.002 * multiplier }, 300, 'easeInOutExpo');
             }, time);
         }
 
         function glitchOut() {
-            Timer.clearTimeout(timeout);
-            TweenManager.tween(badtv.uniforms.distortion, { value: 0 }, 300, 'easeOutSine');
-            TweenManager.tween(badtv.uniforms.distortion2, { value: 0 }, 300, 'easeOutSine');
-            TweenManager.tween(rgb.uniforms.distortion, { value: 0 }, 300, 'easeOutSine');
+            self.clearTimeout(timeout);
+            tween(badtv.uniforms.uDistortion, { value: 0 }, 300, 'easeOutSine');
+            tween(badtv.uniforms.uDistortion2, { value: 0 }, 300, 'easeOutSine');
+            tween(rgb.uniforms.uDistortion, { value: 0 }, 300, 'easeOutSine');
             timeout = self.delayedCall(() => World.effects.enabled = false, 500);
         }
 
         function glitchLoader() {
-            TweenManager.tween(badtv.uniforms.distortion, { value: 4 * multiplier }, 300, 'easeInOutExpo');
-            TweenManager.tween(badtv.uniforms.distortion2, { value: 1 * multiplier }, 300, 'easeInOutExpo');
-            TweenManager.tween(rgb.uniforms.distortion, { value: 0.01 * multiplier }, 300, 'easeInOutExpo');
+            tween(badtv.uniforms.uDistortion, { value: 4 * multiplier }, 300, 'easeInOutExpo');
+            tween(badtv.uniforms.uDistortion2, { value: 1 * multiplier }, 300, 'easeInOutExpo');
+            tween(rgb.uniforms.uDistortion, { value: 0.01 * multiplier }, 300, 'easeInOutExpo');
             timeout = self.delayedCall(() => self.events.fire(Events.GLITCH_OUT), 500);
         }
 
@@ -658,11 +660,11 @@ class AlienKittyCanvas extends Component {
 
         function blink1() {
             self.needsUpdate = true;
-            TweenManager.tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
-                TweenManager.tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
+            tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
+                tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
             });
-            TweenManager.tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 120, 'easeOutCubic', () => {
-                TweenManager.tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 180, 'easeOutCubic', () => {
+            tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 120, 'easeOutCubic', () => {
+                tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 180, 'easeOutCubic', () => {
                     self.needsUpdate = false;
                     blink();
                 });
@@ -671,11 +673,11 @@ class AlienKittyCanvas extends Component {
 
         function blink2() {
             self.needsUpdate = true;
-            TweenManager.tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
-                TweenManager.tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
+            tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
+                tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
             });
-            TweenManager.tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 180, 'easeOutCubic', () => {
-                TweenManager.tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 240, 'easeOutCubic', () => {
+            tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 180, 'easeOutCubic', () => {
+                tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 240, 'easeOutCubic', () => {
                     self.needsUpdate = false;
                     blink();
                 });
@@ -737,8 +739,8 @@ class Loader extends Interface {
             Config.ASSETS.push(`assets/data/data.json?${Utils.timestamp()}`);
             Promise.all([
                 FontLoader.loadFonts([
-                    { font: 'Neue Haas Grotesk', style: 'normal', weight: 'normal' },
-                    { font: 'Neue Haas Grotesk', style: 'normal', weight: 'bold' }
+                    { family: 'Neue Haas Grotesk', style: 'normal', weight: 'normal' },
+                    { family: 'Neue Haas Grotesk', style: 'normal', weight: 'bold' }
                 ]),
                 AssetLoader.loadAssets(Config.ASSETS)
             ]).then(loadComplete);

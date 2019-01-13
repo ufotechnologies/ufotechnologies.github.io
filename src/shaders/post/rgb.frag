@@ -1,7 +1,7 @@
-uniform float time;
-uniform vec2 resolution;
-uniform sampler2D texture;
-uniform float distortion;
+uniform float uTime;
+uniform vec2 uResolution;
+uniform sampler2D tDiffuse;
+uniform float uDistortion;
 
 varying vec2 vUv;
 
@@ -9,11 +9,11 @@ varying vec2 vUv;
 
 void main() {
     //float angle = 3.14159;
-    //float angle = time * 0.1;
+    //float angle = uTime * 0.1;
     float angle = length(vUv - vec2(0.5));
     //float amount = 0.3;
-    //float amount = cos(time) * 0.02;
-    //float amount = (0.002 * cos(time)) + 0.0002;
-    float amount = (distortion * cos(time)) + 0.0002;
-    gl_FragColor = getRGB(texture, vUv, angle, amount);
+    //float amount = cos(uTime) * 0.02;
+    //float amount = (0.002 * cos(uTime)) + 0.0002;
+    float amount = (uDistortion * cos(uTime)) + 0.0002;
+    gl_FragColor = getRGB(tDiffuse, vUv, angle, amount);
 }
