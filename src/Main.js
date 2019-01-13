@@ -1,5 +1,5 @@
 /**
- * Patrick Schroen –– Web 3.0 technologist.
+ * Patrick Schroen — Web 3.0 technologist.
  *
  * @author Patrick Schroen / https://github.com/pschroen
  */
