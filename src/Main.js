@@ -11,9 +11,9 @@ import { Events, Stage, Interface, Component, Canvas, CanvasGraphics, CanvasText
 
 import vertBasicShader from './shaders/basic_shader.vert';
 import fragBasicShader from './shaders/basic_shader.frag';
-import vertBadTV from './shaders/post/badtv.vert';
+import vertBasicPass from './shaders/basic_pass.vert';
+//import fragBasicPass from './shaders/basic_pass.frag';
 import fragBadTV from './shaders/post/badtv.frag';
-import vertRGB from './shaders/post/rgb.vert';
 import fragRGB from './shaders/post/rgb.frag';
 
 Config.UI_OFFSET = Device.phone ? 20 : 80;
@@ -410,7 +410,7 @@ class CanvasGrid extends Component {
         function initMesh() {
             shader = self.initClass(Shader, vertBasicShader, fragBasicShader, {
                 tMap: { value: grid.texture },
-                uAlpha: { value: 0 },
+                uAlpha: { value: 1 },
                 uTime: World.time,
                 uResolution: World.resolution,
                 depthWrite: false,
@@ -525,15 +525,16 @@ class World extends Component {
                 camera,
                 dpr: World.dpr
             });
-            badtv = self.initClass(Shader, vertBadTV, fragBadTV, {
+            badtv = self.initClass(Shader, vertBasicPass, fragBadTV, {
                 tDiffuse: { value: null },
                 uDistortion: { value: 0 },
                 uDistortion2: { value: 0 },
+                uRollSpeed: { value: 0 },
                 uTime: World.time,
                 depthWrite: false,
                 depthTest: false
             });
-            rgb = self.initClass(Shader, vertRGB, fragRGB, {
+            rgb = self.initClass(Shader, vertBasicPass, fragRGB, {
                 tDiffuse: { value: null },
                 uDistortion: { value: 0 },
                 uTime: World.time,
