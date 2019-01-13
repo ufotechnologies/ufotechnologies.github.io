@@ -7,7 +7,7 @@
 import * as THREE from 'three';
 
 import { Events, Stage, Interface, Component, Canvas, CanvasGraphics, CanvasTexture, Device, Utils,
-    Assets, AssetLoader, FontLoader, Shader, Effects } from '../alien.js/src/Alien.js';
+    Assets, AssetLoader, FontLoader, ScrollWarp, Shader, Effects } from '../alien.js/src/Alien.js';
 
 import vertBasicShader from './shaders/basic_shader.vert';
 import fragBasicShader from './shaders/basic_shader.frag';
@@ -40,22 +40,20 @@ class GridLayout extends Interface {
         this.startRender(loop);
 
         function initHTML() {
-            self.css({
-                position: 'relative'
-            });
+            self.css({ position: 'relative' });
         }
 
-        function checkPosition() {
-            const scrollElement = document.scrollingElement || document.documentElement,
-                scrolled = scrollElement.scrollTop + window.innerHeight;
+        function loop() {
+            const scrollElement = Stage.element,
+                scrolled = scrollElement.scrollTop + Stage.height;
             pos = scrollElement.scrollTop;
             delta = pos - last;
             last = pos;
             const start = self.element.offsetTop,
                 current = scrolled - start,
-                end = start + window.innerHeight * 2;
+                end = start + Stage.height * 2;
             if (scrolled > start && scrolled < end) {
-                const percent = current / (window.innerHeight * 2);
+                const percent = current / (Stage.height * 2);
                 if (percent > 0.25 && percent < 0.75) {
                     if (!self.animatedIn) {
                         self.animatedIn = true;
@@ -70,12 +68,8 @@ class GridLayout extends Interface {
             }
         }
 
-        function loop() {
-            checkPosition();
-        }
-
         this.resize = () => {
-            this.size('100%', window.innerHeight);
+            this.size('100%', Stage.height);
         };
 
         this.animateIn = delta => {
@@ -147,7 +141,7 @@ class NavLink extends Interface {
         }
 
         function click(e) {
-            getURL(e.object.link);
+            getURL(e.object.link, '_self');
         }
     }
 }
@@ -267,6 +261,41 @@ class NavLayout extends Interface {
     }
 }
 
+class Page extends Interface {
+
+    constructor() {
+        super('Page');
+        const self = this;
+        let nav, grid;
+
+        initContainer();
+        initViews();
+        addListeners();
+
+        function initContainer() {
+            self.size('100%', 'auto');
+        }
+
+        function initViews() {
+            nav = self.initClass(NavLayout);
+            grid = self.initClass(GridLayout);
+            self.nav = nav;
+        }
+
+        function addListeners() {
+            self.initClass(ScrollWarp, self, Stage.scroll);
+        }
+
+        this.resize = () => {
+            nav.resize();
+            grid.resize();
+        };
+
+        this.animateIn = () => {
+        };
+    }
+}
+
 class CanvasGridTexture extends Component {
 
     constructor() {
@@ -282,7 +311,7 @@ class CanvasGridTexture extends Component {
         initAlienKitty();
 
         function initCanvas() {
-            canvas = self.initClass(Canvas, window.innerWidth, window.innerHeight, true, true);
+            canvas = self.initClass(Canvas, Stage.width, Stage.height, true, true);
             self.canvas = canvas;
             texture = new THREE.Texture(canvas.element);
             texture.minFilter = texture.magFilter = THREE.LinearFilter;
@@ -332,7 +361,7 @@ class CanvasGridTexture extends Component {
         }
 
         this.update = () => {
-            canvas.size(window.innerWidth, window.innerHeight);
+            canvas.size(Stage.width, Stage.height);
             drawFill();
             drawDots();
             drawAlienKitty();
@@ -400,7 +429,7 @@ class CanvasGrid extends Component {
 
         this.resize = () => {
             grid.update();
-            mesh.scale.set(window.innerWidth, window.innerHeight, 1);
+            mesh.scale.set(Stage.width, Stage.height, 1);
         };
 
         this.showAlienKitty = grid.showAlienKitty;
@@ -479,12 +508,12 @@ class World extends Component {
         function initWorld() {
             renderer = new THREE.WebGLRenderer({ powerPreference: 'high-performance' });
             renderer.setPixelRatio(World.dpr);
-            renderer.domElement.style.position = 'fixed';
             scene = new THREE.Scene();
             camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
             World.scene = scene;
             World.renderer = renderer;
             World.element = renderer.domElement;
+            World.object = new Interface(World.element);
             World.camera = camera;
             World.quad = new THREE.PlaneBufferGeometry(1, 1);
             World.time = { value: 0 };
@@ -515,6 +544,7 @@ class World extends Component {
             effects.add(badtv);
             effects.add(rgb);
             World.effects = effects;
+            World.object.css({ position: 'fixed' }).mouseEnabled(false);
         }
 
         function addListeners() {
@@ -526,20 +556,20 @@ class World extends Component {
         }
 
         function resize() {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            effects.setSize(window.innerWidth, window.innerHeight);
-            camera.left = -window.innerWidth / 2;
-            camera.right = window.innerWidth / 2;
-            camera.top = window.innerHeight / 2;
-            camera.bottom = -window.innerHeight / 2;
+            renderer.setSize(Stage.width, Stage.height);
+            effects.setSize(Stage.width, Stage.height);
+            camera.left = -Stage.width / 2;
+            camera.right = Stage.width / 2;
+            camera.top = Stage.height / 2;
+            camera.bottom = -Stage.height / 2;
             camera.updateProjectionMatrix();
-            World.resolution.value.set(window.innerWidth * World.dpr, window.innerHeight * World.dpr);
+            World.resolution.value.set(Stage.width * World.dpr, Stage.height * World.dpr);
         }
 
         function glitchIn(delta = 0) {
             const time = Math.range(delta, 0, 400, 300, 50);
             self.clearTimeout(timeout);
-            World.effects.enabled = true;
+            effects.enabled = true;
             tween(badtv.uniforms.uDistortion, { value: Math.range(delta, 0, 400, 0, 8) * multiplier }, time, 'easeInOutExpo');
             tween(badtv.uniforms.uDistortion2, { value: Math.range(delta, 0, 400, 0, 2) * multiplier }, time, 'easeInOutExpo');
             tween(rgb.uniforms.uDistortion, { value: Math.range(delta, 0, 400, 0, 0.02) * multiplier }, time, 'easeInOutExpo');
@@ -555,7 +585,7 @@ class World extends Component {
             tween(badtv.uniforms.uDistortion, { value: 0 }, 300, 'easeOutSine');
             tween(badtv.uniforms.uDistortion2, { value: 0 }, 300, 'easeOutSine');
             tween(rgb.uniforms.uDistortion, { value: 0 }, 300, 'easeOutSine');
-            timeout = self.delayedCall(() => World.effects.enabled = false, 500);
+            timeout = self.delayedCall(() => effects.enabled = false, 500);
         }
 
         function glitchLoader() {
@@ -582,14 +612,13 @@ class Container extends Interface {
     constructor() {
         super('Container');
         const self = this;
-        let scene, nav, grid;
+        let scene, page;
 
         initContainer();
         initViews();
         addListeners();
 
         function initContainer() {
-            self.size('100%', 'auto');
             Stage.add(self);
             World.instance();
             self.add(World);
@@ -597,10 +626,9 @@ class Container extends Interface {
 
         function initViews() {
             scene = self.initClass(Scene);
-            nav = self.initClass(NavLayout);
-            grid = self.initClass(GridLayout);
+            page = self.initClass(Page);
             self.scene = scene;
-            self.nav = nav;
+            self.page = page;
         }
 
         function addListeners() {
@@ -609,9 +637,9 @@ class Container extends Interface {
         }
 
         function resize() {
+            self.size(Stage.width, Stage.height, true);
             scene.resize();
-            nav.resize();
-            grid.resize();
+            page.resize();
         }
 
         this.preload = scene.ready;
@@ -769,16 +797,23 @@ class Main {
 
         if (!Device.webgl) return window.location = 'fallback.html';
 
-        let loader;
+        let scroll, loader;
 
         initStage();
+        initScroll();
         initLoader();
         addListeners();
 
         function initStage() {
             Stage.allowScroll();
-            Stage.css({ position: '', overflow: '' });
+            Stage.css({ overflowY: 'scroll' });
             window.history.scrollRestoration = 'manual';
+        }
+
+        function initScroll() {
+            scroll = Stage.create('Scroll');
+            scroll.css({ width: '100%' });
+            Stage.scroll = scroll;
         }
 
         function initLoader() {
@@ -805,7 +840,7 @@ class Main {
                 Stage.delayedCall(() => {
                     loader.animateOut(() => {
                         loader = loader.destroy();
-                        Container.instance().nav.animateIn();
+                        Container.instance().page.nav.animateIn();
                     });
                     Stage.events.fire(Events.GLITCH_LOADER);
                 }, 1000);
