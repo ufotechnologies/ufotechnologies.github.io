@@ -1,7 +1,6 @@
-uniform float uTime;
-uniform vec2 uResolution;
 uniform sampler2D tDiffuse;
 uniform float uDistortion;
+uniform float uTime;
 
 varying vec2 vUv;
 

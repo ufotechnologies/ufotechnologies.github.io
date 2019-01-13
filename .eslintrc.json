@@ -7,7 +7,6 @@
     "defer": true,
     "tween": true,
     "clearTween": true,
-    "getURL": true,
     "Config": true,
     "Global": true
   },

@@ -141,7 +141,7 @@ class NavLink extends Interface {
         }
 
         function click(e) {
-            getURL(e.object.link, '_self');
+            open(e.object.link, '_self');
         }
     }
 }
@@ -372,14 +372,14 @@ class CanvasGridTexture extends Component {
         this.showAlienKitty = time => {
             this.clearTimeout(timeout);
             this.needsUpdate = true;
-            tween(alienkittygraphics, { opacity: 1 }, time, 'easeInOutExpo');
+            alienkittygraphics.tween({ opacity: 1 }, time, 'easeInOutExpo');
             timeout = this.delayedCall(() => this.needsUpdate = false, 500);
         };
 
         this.hideAlienKitty = () => {
             this.clearTimeout(timeout);
             this.needsUpdate = true;
-            tween(alienkittygraphics, { opacity: 0 }, 250, 'easeOutSine');
+            alienkittygraphics.tween({ opacity: 0 }, 250, 'easeOutSine');
             timeout = this.delayedCall(() => this.needsUpdate = false, 500);
         };
 
@@ -396,7 +396,9 @@ class CanvasGrid extends Component {
         const self = this;
         let grid, shader, mesh;
 
-        this.object3D = new THREE.Object3D();
+        this.group = new THREE.Group();
+        this.group.visible = false;
+        World.scene.add(this.group);
 
         initCanvasTexture();
         initMesh();
@@ -406,21 +408,21 @@ class CanvasGrid extends Component {
         }
 
         function initMesh() {
-            self.object3D.visible = false;
             shader = self.initClass(Shader, vertBasicShader, fragBasicShader, {
+                tMap: { value: grid.texture },
+                uAlpha: { value: 0 },
                 uTime: World.time,
                 uResolution: World.resolution,
-                uTexture: { value: grid.texture },
-                uAlpha: { value: 0 },
                 depthWrite: false,
                 depthTest: false
             });
             mesh = new THREE.Mesh(World.quad, shader.material);
-            self.object3D.add(mesh);
+            mesh.frustumCulled = false;
+            self.group.add(mesh);
         }
 
         function loop() {
-            if (!self.object3D.visible) return;
+            if (!self.group.visible) return;
             if (grid.needsUpdate || grid.alienkitty.needsUpdate) {
                 grid.canvas.render();
                 grid.texture.needsUpdate = true;
@@ -442,7 +444,7 @@ class CanvasGrid extends Component {
             grid.canvas.render();
             grid.texture.needsUpdate = true;
             this.startRender(loop);
-            this.object3D.visible = true;
+            this.group.visible = true;
         };
 
         this.ready = grid.ready;
@@ -461,7 +463,6 @@ class Scene extends Component {
 
         function initViews() {
             grid = self.initClass(CanvasGrid);
-            World.scene.add(grid.object3D);
         }
 
         function addListeners() {
@@ -525,19 +526,17 @@ class World extends Component {
                 dpr: World.dpr
             });
             badtv = self.initClass(Shader, vertBadTV, fragBadTV, {
-                uTime: World.time,
-                uResolution: World.resolution,
-                tDiffuse: { type: 't', value: null },
+                tDiffuse: { value: null },
                 uDistortion: { value: 0 },
                 uDistortion2: { value: 0 },
+                uTime: World.time,
                 depthWrite: false,
                 depthTest: false
             });
             rgb = self.initClass(Shader, vertRGB, fragRGB, {
-                uTime: World.time,
-                uResolution: World.resolution,
-                tDiffuse: { type: 't', value: null },
+                tDiffuse: { value: null },
                 uDistortion: { value: 0 },
+                uTime: World.time,
                 depthWrite: false,
                 depthTest: false
             });
@@ -595,8 +594,8 @@ class World extends Component {
             timeout = self.delayedCall(() => self.events.fire(Events.GLITCH_OUT), 500);
         }
 
-        function loop(t, delta) {
-            World.time.value += delta * 0.001;
+        function loop(t, dt) {
+            World.time.value += dt * 0.001;
             effects.render();
         }
     }
@@ -688,11 +687,11 @@ class AlienKittyCanvas extends Component {
 
         function blink1() {
             self.needsUpdate = true;
-            tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
-                tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
+            eyelid1.tween({ scaleY: 1.5 }, 120, 'easeOutCubic', () => {
+                eyelid1.tween({ scaleY: 0.01 }, 180, 'easeOutCubic');
             });
-            tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 120, 'easeOutCubic', () => {
-                tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 180, 'easeOutCubic', () => {
+            eyelid2.tween({ scaleX: 1.3, scaleY: 1.3 }, 120, 'easeOutCubic', () => {
+                eyelid2.tween({ scaleX: 1, scaleY: 0.01 }, 180, 'easeOutCubic', () => {
                     self.needsUpdate = false;
                     blink();
                 });
@@ -701,11 +700,11 @@ class AlienKittyCanvas extends Component {
 
         function blink2() {
             self.needsUpdate = true;
-            tween(eyelid1, { scaleY: 1.5 }, 120, 'easeOutCubic', () => {
-                tween(eyelid1, { scaleY: 0.01 }, 180, 'easeOutCubic');
+            eyelid1.tween({ scaleY: 1.5 }, 120, 'easeOutCubic', () => {
+                eyelid1.tween({ scaleY: 0.01 }, 180, 'easeOutCubic');
             });
-            tween(eyelid2, { scaleX: 1.3, scaleY: 1.3 }, 180, 'easeOutCubic', () => {
-                tween(eyelid2, { scaleX: 1, scaleY: 0.01 }, 240, 'easeOutCubic', () => {
+            eyelid2.tween({ scaleX: 1.3, scaleY: 1.3 }, 180, 'easeOutCubic', () => {
+                eyelid2.tween({ scaleX: 1, scaleY: 0.01 }, 240, 'easeOutCubic', () => {
                     self.needsUpdate = false;
                     blink();
                 });
