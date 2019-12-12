@@ -507,7 +507,7 @@ class World extends Component {
         this.startRender(loop);
 
         function initWorld() {
-            renderer = new THREE.WebGLRenderer({ powerPreference: 'high-performance' });
+            renderer = new THREE.WebGLRenderer({ powerPreference: 'high-performance', precision: 'mediump' });
             renderer.setPixelRatio(World.dpr);
             scene = new THREE.Scene();
             camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
