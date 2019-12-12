@@ -13,9 +13,6 @@
     "Global": true
   },
   "extends": "eslint:recommended",
-  "plugins": [
-    "html"
-  ],
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module"
@@ -49,6 +46,14 @@
     "key-spacing": [
       "error",
       { "mode": "minimum" }
+    ],
+    "padded-blocks": [
+      "error",
+      "never"
+    ],
+    "sort-imports": [
+      "error",
+      { "ignoreDeclarationSort": true }
     ]
   }
 }

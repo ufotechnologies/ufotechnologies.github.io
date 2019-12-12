@@ -8,14 +8,14 @@ import { version } from './alien.js/package.json';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-    input: 'src/Main.js',
+    input: 'src/main.js',
     output: {
         file: 'public/assets/js/app.js',
         format: 'iife'
     },
     plugins: [
         glslify({ basedir: 'src/shaders' }),
-        eslint({ include: ['src/**', 'alien.js/**'] }),
+        eslint({ include: 'src/**' }),
         production && terser({
             output: {
                 preamble: `//   _  /._  _  r${version.split('.')[1]} ${timestamp()}\n//  /_|///_'/ /`
@@ -28,6 +28,6 @@ export default {
     watch: {
         chokidar: true,
         clearScreen: false,
-        include: ['src/**', 'alien.js/**']
+        include: 'src/**'
     }
 };
