@@ -1,29 +1,33 @@
-import { timestamp, uglify } from 'rollup-plugin-bundleutils';
+import { timestamp, terser } from 'rollup-plugin-bundleutils';
 
-import replace from 'rollup-plugin-replace';
 import glslify from 'rollup-plugin-glslify';
 import { eslint } from 'rollup-plugin-eslint';
 
 import { version } from './alien.js/package.json';
 
+const production = !process.env.ROLLUP_WATCH;
+
 export default {
     input: 'src/Main.js',
     output: {
         file: 'public/assets/js/app.js',
-        format: 'es'
+        format: 'iife'
     },
     plugins: [
-        replace({
-            'three': '/* global THREE */',
-            delimiters: ['import * as THREE from \'', '\';']
-        }),
         glslify({ basedir: 'src/shaders' }),
-        eslint({ include: ['src/**', 'alien.js/**'], exclude: 'alien.js/src/gsap/**' }),
-        uglify({
+        eslint({ include: ['src/**', 'alien.js/**'] }),
+        production && terser({
             output: {
                 preamble: `//   _  /._  _  r${version.split('.')[1]} ${timestamp()}\n//  /_|///_'/ /`
             },
+            keep_classnames: true,
+            keep_fnames: true,
             safari10: true
         })
-    ]
+    ],
+    watch: {
+        chokidar: true,
+        clearScreen: false,
+        include: ['src/**', 'alien.js/**']
+    }
 };
