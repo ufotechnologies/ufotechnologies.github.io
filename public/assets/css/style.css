@@ -1,22 +1,17 @@
-/* This CSS resource incorporates links to font software which is the
-   valuable copyrighted property of Type Network, Inc. and/or their
-   suppliers. You may not attempt to copy, install, redistribute,
-   convert, modify or reverse engineer this font software. Please
-   contact Type Network with any questions: www.typenetwork.com */
+@font-face {
+    font-family: 'Inter';
+    font-style:  normal;
+    font-weight: 400;
+    src: url('../fonts/Inter-Regular.woff2') format('woff2'),
+         url('../fonts/Inter-Regular.woff') format('woff');
+}
 
 @font-face {
-    font-family: 'Neue Haas Grotesk';
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
-         url('https://cloud.typenetwork.com/projectLicenseWeb/13844/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
-    font-style: normal;
-    font-weight: normal;
-}
-@font-face {
-    font-family: 'Neue Haas Grotesk';
-    src: url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff2/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff2'),
-         url('https://cloud.typenetwork.com/projectLicenseWeb/13845/fontfile/woff/?afa76983d27a4cca21bc35b44a6c6279c6250cd4') format('woff');
-    font-style: normal;
-    font-weight: bold;
+    font-family: 'Inter';
+    font-style:  normal;
+    font-weight: 700;
+    src: url('../fonts/Inter-Bold.woff2') format('woff2'),
+         url('../fonts/Inter-Bold.woff') format('woff');
 }
 
 body, html, #Stage {
@@ -26,10 +21,15 @@ body, html, #Stage {
     height: 100%;
     overflow: hidden;
     background: #111;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
     color: white;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
 }
 
 * {

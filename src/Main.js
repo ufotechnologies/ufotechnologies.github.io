@@ -104,21 +104,21 @@ class NavLink extends Interface {
             });
             if (data.group || data.title) {
                 title = container.create('.title');
-                title.fontStyle('Neue Haas Grotesk', data.group ? 18.5 : 13.5, data.group ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 1)');
+                title.fontStyle('Inter', data.group ? 18.5 : 13.5, data.group ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 1)');
                 title.css({
                     position: 'relative',
-                    fontWeight: 'bold',
+                    fontWeight: '700',
                     lineHeight: '1.2'
                 });
                 title.html(data.group ? data.group : data.title);
             }
             if (data.description) {
                 description = container.create('.description');
-                description.fontStyle('Neue Haas Grotesk', !data.title ? 13.5 : 12.5, 'rgba(255, 255, 255, 1)');
+                description.fontStyle('Inter', !data.title ? 13.5 : 12.5, 'rgba(255, 255, 255, 1)');
                 description.css({
                     position: 'relative',
                     display: 'inline-block',
-                    fontWeight: 'normal',
+                    fontWeight: '400',
                     lineHeight: '1.2'
                 });
                 description.html(data.description);
@@ -198,11 +198,12 @@ class NavTitle extends Interface {
             });
             title = self.create('.title');
             title.size('100%', 'auto');
-            title.fontStyle('Neue Haas Grotesk', 37, 'rgba(255, 255, 255, 0.9)');
+            title.fontStyle('Inter', 37, 'rgba(255, 255, 255, 0.9)');
             title.css({
                 position: 'relative',
-                fontWeight: 'bold',
+                fontWeight: '700',
                 lineHeight: '1.1',
+                letterSpacing: -0.2,
                 marginBottom: 60
             });
             title.text('Hello, I’m Patrick, a Web 3.0 technologist based in Toronto, Canada.');
@@ -767,8 +768,8 @@ class Loader extends Interface {
             Config.ASSETS.push(`assets/data/data.json?${Utils.timestamp()}`);
             Promise.all([
                 FontLoader.loadFonts([
-                    { family: 'Neue Haas Grotesk', style: 'normal', weight: 'normal' },
-                    { family: 'Neue Haas Grotesk', style: 'normal', weight: 'bold' }
+                    { family: 'Inter', style: 'normal', weight: '400' },
+                    { family: 'Inter', style: 'normal', weight: '700' }
                 ]),
                 AssetLoader.loadAssets(Config.ASSETS)
             ]).then(loadComplete);
