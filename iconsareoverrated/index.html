@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Icons Are Overrated</title>
+
+        <meta name="description" content="Web Unleashed 2017">
+        <meta name="author" content="Patrick Schroen">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/createinto.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section>
+                    <a href="javascript:var el=document.documentElement,rfs=el.requestFullscreen||el.webkitRequestFullScreen||el.mozRequestFullScreen||el.msRequestFullscreen;rfs.call(el);"><img src="5o791x8.png" alt="Desktop Fail"></a>
+                    <p align="right">Desktop Fail</p>
+                </section>
+
+                <section>
+                    <img src="spotlight-search.png" alt="Mac’s “⌘–Space” Spotlight">
+                    <p align="right">Mac’s “⌘–Space” Spotlight</p>
+                </section>
+
+                <section>
+                    <img src="a-visual-history-of-the-itunes-icon-in-the-last-14-years.png" alt="iTunes Icons">
+                    <p align="right">iTunes Icons</p>
+                </section>
+
+                <section>
+                    <img src="history-of-photoshop-icons.jpg" alt="Photoshop Icons">
+                    <p align="right">Photoshop Icons</p>
+                </section>
+
+                <section>
+                    <img src="coca-cola-pepsi.gif" alt="Brand Colours">
+                    <p align="right">Brand Colours</p>
+                </section>
+
+                <section>
+                    <img src="honda.png" alt="Honda">
+                    <p align="right">West Coast vs. East Coast</p>
+                </section>
+
+                <section>
+                    <img src="schroen-visual-recognition-order.png" alt="Schroen's Visual Recognition Order">
+                    <p align="right">Schroen’s Visual Recognition Order</p>
+                </section>
+
+                <section>
+                    <h1>Demo</h1>
+                </section>
+
+                <section>
+                    <h1>Haptic Feedback</h1>
+                </section>
+
+                <section>
+                    <h1>Caveats</h1>
+                </section>
+
+                <section>
+                    <h1>ufo.ai/space</h1>
+                </section>
+
+                <section data-background="commie-ghost-in-the-shell-arise-01-bd-720p-aac-a7cd8d76-mkv_001000_07-03-13.jpg">
+                    <h1>The future</h1>
+                </section>
+
+                <section>
+                    <img src="3d-box-time.png" alt="Organizing space">
+                    <p align="right">Organizing space</p>
+                </section>
+
+                <section>
+                    <h1>Tech Portion</h1>
+                </section>
+
+                <section>
+                    <h1>Android Shaders</h1>
+                </section>
+
+                <section data-background="android-shaders-1.png">
+                </section>
+
+                <section data-background="android-shaders-2.png">
+                </section>
+
+                <section data-background="android-shaders-3.png">
+                </section>
+
+                <section data-background="android-shaders-4.png">
+                </section>
+
+                <!--<section data-background="android-shaders-5.png">
+                </section>
+
+                <section data-background="android-shaders-6.png">
+                </section>-->
+
+                <section>
+                    <pre><code class="hljs" data-trim>
+precision highp float;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform vec4 iMouse;
+uniform float iRadius;
+uniform float iBeam;
+uniform float iBeamWidth;
+
+void main() {
+    vec2 p = (gl_FragCoord.xy - iMouse.xy) / iResolution.y;
+    float a = atan(p.x, p.y);
+    float r = length(p) - iRadius;
+    vec2 uv = vec2(a, r);
+
+    vec3 horColour = vec3(gl_FragCoord.xy / iResolution.xy, 0.5);
+    vec3 horBeam = vec3(abs(iBeam / (iBeamWidth * uv.y)));
+    gl_FragColor = vec4(horBeam * horColour, 1.0);
+}
+                    </code></pre>
+                    <p>Shadertoy fragment shader</p>
+                </section>
+
+                <section>
+                    <pre><code class="hljs" data-trim>
+private void initShaderVariables() {
+    vPosition = GLES20.glGetAttribLocation(program, "vPosition");
+    iResolution = GLES20.glGetUniformLocation(program, "iResolution");
+    iGlobalTime = GLES20.glGetUniformLocation(program, "iGlobalTime");
+    iMouse = GLES20.glGetUniformLocation(program, "iMouse");
+    iRadius = GLES20.glGetUniformLocation(program, "iRadius");
+    iBeam = GLES20.glGetUniformLocation(program, "iBeam");
+    iBeamWidth = GLES20.glGetUniformLocation(program, "iBeamWidth");
+}
+                    </code></pre>
+                    <p>Android OpenGL ES 2.0 Shadertoy variables</p>
+                </section>
+
+                <section>
+                    <pre><code class="hljs" data-trim>
+private void setShaderVariables() {
+    GLES20.glUniform3f(iResolution, screenWidth, screenHeight,
+            (float)screenWidth / (float)screenHeight);
+
+    Date date = new Date();
+    float time = (float) (date.getTime() - startTime) / 1000.0f;
+    GLES20.glUniform1f(iGlobalTime, time);
+    GLES20.glUniform4f(iMouse, touchX, touchY,
+            touchActive ? touchX : 0, touchActive ? touchY : 0);
+    GLES20.glUniform1f(iRadius, radiusPos);
+    GLES20.glUniform1f(iBeam, beamPos);
+    GLES20.glUniform1f(iBeamWidth, beamWidthPos);
+}
+                    </code></pre>
+                    <p>Android OpenGL ES 2.0 set Shadertoy variables</p>
+                </section>
+
+                <section>
+                    <h1>Android Gestures</h1>
+                </section>
+
+                <section>
+                    <img src="Android_studio_circle_gesture2.png" alt="Create a gesture?">
+                    <p align="right">Create a gesture?</p>
+                </section>
+
+                <section data-background="android-gestures-1.png">
+                </section>
+
+                <section data-background="android-gestures-2.png">
+                </section>
+
+                <!--<section data-background="android-gestures-3.png">
+                </section>-->
+
+                <section data-transition="fade">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gesture</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>GESTURE_SWIPE_UP</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>GESTURE_SWIPE_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>GESTURE_SWIPE_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>GESTURE_SWIPE_RIGHT</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_RIGHT</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>GESTURE_SWIPE_UP_AND_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_UP</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>GESTURE_CLOCKWISE_CIRCLE</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>GESTURE_COUNTER_CLOCKWISE_CIRCLE</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_UP</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_UP</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>GESTURE_SWIPE_UP_AND_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>GESTURE_SWIPE_UP_AND_RIGHT</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_RIGHT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section data-transition="fade">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gesture</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>GESTURE_SWIPE_UP</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>GESTURE_SWIPE_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>GESTURE_SWIPE_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>GESTURE_SWIPE_RIGHT</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>5</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_RIGHT</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>6</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_LEFT</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>7</td>
+                                <td>GESTURE_SWIPE_UP_AND_DOWN</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>8</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_UP</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>9</td>
+                                <td>GESTURE_CLOCKWISE_CIRCLE</td>
+                            </tr>
+                            <tr style="background-color: lightyellow;">
+                                <td>10</td>
+                                <td>GESTURE_COUNTER_CLOCKWISE_CIRCLE</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_UP</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>GESTURE_SWIPE_LEFT_AND_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_UP</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>GESTURE_SWIPE_RIGHT_AND_DOWN</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>GESTURE_SWIPE_UP_AND_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>GESTURE_SWIPE_UP_AND_RIGHT</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_LEFT</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>GESTURE_SWIPE_DOWN_AND_RIGHT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <pre><code class="hljs" data-trim>
+ArrayList&lt;Prediction&gt; predictions = mGestureLibrary.recognize(gesture);
+if (!predictions.isEmpty()) {
+    Prediction bestPrediction = predictions.get(0);
+    if (bestPrediction.score >= MIN_PREDICTION_SCORE) {
+        try {
+            final int gestureId = Integer.parseInt(bestPrediction.name);
+            Log.d(TAG, "gesture: " + gestureId);
+            if (gestureId > 4 && gestureId < 11 && hold < 2) posReveal(!reveal);
+        } catch (NumberFormatException nfe) {
+            Log.d(TAG, "Non numeric gesture id:" + bestPrediction.name);
+        }
+    }
+}
+                    </code></pre>
+                    <p>gestureId > 4 && gestureId < 11</p>
+                </section>
+
+                <section>
+                    <h1>Questions?</h1>
+                </section>
+
+                <section style="text-align: left; color: white;" data-background="IMG_0383.jpg">
+                    <h1>Bensimon Byrne</h1>
+                    <h2>Patrick Schroen</h2>
+                    <h3>medium.com/@pschroen<br>twitter.com/pschroen<br>github.com/pschroen</h3>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: false,
+                history: true,
+                center: true,
+
+                transition: 'default', // none/fade/slide/convex/concave/zoom
+
+                width: 1024,
+                height: 768,
+
+                dependencies: [
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+
+    </body>
+</html>

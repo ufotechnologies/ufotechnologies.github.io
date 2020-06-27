@@ -1,0 +1,125 @@
+{
+    "headline": "Hello, I’m Patrick, a Web 3.0 technologist based in Toronto, Canada.",
+    "links": [
+        {
+            "description": "<a href=\"https://twitter.com/pschroen\">Twitter</a>, <a href=\"https://github.com/pschroen\">GitHub</a>, <a href=\"https://www.linkedin.com/in/patrickschroen/\">LinkedIn</a>, <a href=\"mailto:ps@ufotechnologies.com\">Email</a>, <a href=\"https://github.com/ufotechnologies/ufotechnologies.github.io\">Source code</a> of this site."
+        },
+        {},
+        {
+            "group": "Work"
+        },
+        {
+            "title": "#PetMe",
+            "description": "A machine learning Instagram bot for PetRescue",
+            "link": "https://www.petme.org.au/"
+        },
+        {
+            "title": "#FITCDJ",
+            "description": "An interactive playlist for CreateInTO’s Retro Flash Party",
+            "link": "http://fitc.ca/location/createinto-party/?event=23851"
+        },
+        {
+            "title": "#RaiseThePride",
+            "description": "A motorized flag pole controlled by Twitter sentiment for Toronto PFLAG",
+            "link": "http://raisethepride.ca/"
+        },
+        {},
+        {
+            "group": "Projects"
+        },
+        {
+            "title": "Multiuser Fluid",
+            "description": "An experiment to combine UI and data visualization elements in a multiuser environment",
+            "link": "https://multiuser-fluid.glitch.me/"
+        },
+        {
+            "title": "Alien.js",
+            "description": "Future web pattern",
+            "link": "https://alien.js.org/"
+        },
+        {
+            "title": "Amp - Music Bot",
+            "description": "A crowdsourcing music player for Android",
+            "link": "https://ufo.ai/amp/"
+        },
+        {
+            "title": "Space Launcher",
+            "description": "An experimental Android launcher using colour and space",
+            "link": "https://ufo.ai/space/"
+        },
+        {},
+        {
+            "group": "Articles"
+        },
+        {
+            "title": "Icons are overrated",
+            "description": "Why colour and space are more important",
+            "link": "https://medium.com/@pschroen/icons-are-overrated-47825a380b98"
+        },
+        {
+            "title": "The death of display",
+            "description": "Published in the September 2015 issue of strategy",
+            "link": "https://www.linkedin.com/pulse/death-display-patrick-schroen/"
+        },
+        {},
+        {
+            "group": "Talks"
+        },
+        {
+            "title": "Icons are overrated",
+            "description": "Web Unleashed 2017",
+            "link": "https://fitc.ca/presentation/icons-are-overrated/"
+        },
+        {},
+        {
+            "group": "Honours & Awards"
+        },
+        {
+            "description": "Web development veteran of 25 years in marketing and advertising with over 30 honours and awards, including Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+        },
+        {
+            "title": "Cannes Lions 2019: #PetMe",
+            "description": "Social & Influencer and Mobile Shortlists"
+        },
+        {
+            "title": "AWARD Awards 2019: #PetMe",
+            "description": "Silver, Bronze and 3 Finalists"
+        },
+        {
+            "title": "Strategy Awards 2018: Banner Ad Curse",
+            "description": "Silver Data/Tech Strategy"
+        },
+        {
+            "title": "AToMiC 2018: The Svedka Banner Ad Curse",
+            "description": "Silver Global"
+        },
+        {
+            "title": "Strategy Magazines Top Creative Directors of 2016",
+            "description": "Creative Report Card"
+        },
+        {
+            "title": "ADCC 2015: #RaiseThePride",
+            "description": "Silver and 2 Merits"
+        },
+        {
+            "title": "CMA 2015: #RaiseThePride",
+            "description": "Silver and 3 Bronze"
+        },
+        {
+            "title": "LIA 2015: #RaiseThePride",
+            "description": "2 Bronze"
+        },
+        {
+            "title": "Applied Arts 2015: #RaiseThePride",
+            "description": "Published in the September 2015 issue of Applied Arts"
+        },
+        {
+            "title": "Cannes Lions 2015: #RaiseThePride",
+            "description": "Creative Data, Promo & Activation and Innovation Shortlists"
+        },
+        {
+            "title": "AToMiC CSR 2015: #RaiseThePride",
+            "description": "Bronze"
+        }
+    ]
+}
