@@ -1,0 +1,52 @@
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    position: fixed;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #0e0e0e;
+    color: rgba(255, 255, 255, 0.94);
+    -webkit-font-smoothing: antialiased;
+}
+
+#root, #root * {
+    position: absolute;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+}
+
+#root br, #root span, #root a {
+    position: relative;
+    display: inline-block;
+}
+
+#root a, #root a:hover, #root a:focus {
+    font-weight: 600;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.94);
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+}
+
+#root a:hover, #root a:focus {
+    border-bottom-color: rgba(255, 255, 255, 0.94);
+}
+
+::selection {
+    background: #fff;
+    color: #000;
+}
