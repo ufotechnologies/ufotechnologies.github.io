@@ -25,10 +25,10 @@ export class WorldController {
         this.scene = new Scene();
         this.scene.background = new Color(Config.BG_COLOR);
         this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+        // Global geometries
         this.quad = new PlaneBufferGeometry(1, 1);
         this.quad.translate(0.5, -0.5, 0);
-
-        // Fullscreen triangle
         this.screenTriangle = getFullscreenTriangle();
 
         // Global uniforms

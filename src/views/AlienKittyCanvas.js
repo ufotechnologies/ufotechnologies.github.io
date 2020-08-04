@@ -7,6 +7,7 @@ export class AlienKittyCanvas extends Interface {
         this.width = 90;
         this.height = 86;
         this.needsUpdate = false;
+        this.isLoaded = false;
 
         this.initCanvas();
     }

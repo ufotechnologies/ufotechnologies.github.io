@@ -6,6 +6,8 @@ export class NavHeadline extends Interface {
     constructor() {
         super(null, 'h1');
 
+        this.words = [];
+
         this.initHTML();
         this.initText();
     }
@@ -24,8 +26,6 @@ export class NavHeadline extends Interface {
     }
 
     initText() {
-        this.words = [];
-
         const text = Data.getHeadline();
         const split = text.split(' ');
 

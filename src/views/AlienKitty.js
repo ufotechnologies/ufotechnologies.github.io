@@ -23,7 +23,6 @@ export class AlienKitty extends Group {
 
         this.texture = new Texture(this.alienkitty.element);
         this.texture.minFilter = LinearFilter;
-        this.texture.magFilter = LinearFilter;
         this.texture.generateMipmaps = false;
     }
 

@@ -19,7 +19,6 @@ export class Grid extends Group {
 
         this.texture = new Texture(this.grid.element);
         this.texture.minFilter = LinearFilter;
-        this.texture.magFilter = LinearFilter;
         this.texture.generateMipmaps = false;
     }
 
