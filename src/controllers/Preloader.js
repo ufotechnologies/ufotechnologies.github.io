@@ -6,7 +6,7 @@ import { PreloaderView } from '../views/PreloaderView.js';
 export class Preloader {
     static init() {
         if (!Device.webgl) {
-            return location = 'fallback.html';
+            return location.href = 'fallback.html';
         }
 
         Assets.path = Config.CDN;
@@ -14,7 +14,7 @@ export class Preloader {
 
         Assets.options = {
             mode: 'cors',
-            //credentials: 'include'
+            // credentials: 'include'
         };
 
         Assets.cache = true;
