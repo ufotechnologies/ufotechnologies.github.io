@@ -43,16 +43,14 @@ export class WorldController {
      */
 
     static resize = (width, height, dpr) => {
-        const camera = this.camera;
-
         // 2D scene
-        camera.left = -width / 2;
-        camera.right = width / 2;
-        camera.top = height / 2;
-        camera.bottom = -height / 2;
-        camera.updateProjectionMatrix();
-        camera.position.x = width / 2;
-        camera.position.y = -height / 2;
+        this.camera.left = -width / 2;
+        this.camera.right = width / 2;
+        this.camera.top = height / 2;
+        this.camera.bottom = -height / 2;
+        this.camera.updateProjectionMatrix();
+        this.camera.position.x = width / 2;
+        this.camera.position.y = -height / 2;
 
         width = Math.round(width * dpr);
         height = Math.round(height * dpr);

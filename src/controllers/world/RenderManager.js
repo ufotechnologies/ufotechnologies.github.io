@@ -18,6 +18,7 @@ export class RenderManager {
         this.scene = scene;
         this.camera = camera;
 
+        this.timeout;
         this.multiplier = 1;
         this.enabled = true;
 
@@ -63,6 +64,9 @@ export class RenderManager {
     static onGlitchIn = ({ delta }) => {
         const time = range(delta, 0, 400, 300, 50);
 
+        clearTween(this.badtv.uniforms.uDistortion);
+        clearTween(this.badtv.uniforms.uDistortion2);
+        clearTween(this.rgb.uniforms.uDistortion);
         clearTween(this.timeout);
 
         this.enabled = true;
@@ -79,6 +83,9 @@ export class RenderManager {
     };
 
     static onGlitchOut = () => {
+        clearTween(this.badtv.uniforms.uDistortion);
+        clearTween(this.badtv.uniforms.uDistortion2);
+        clearTween(this.rgb.uniforms.uDistortion);
         clearTween(this.timeout);
 
         tween(this.badtv.uniforms.uDistortion, { value: 0 }, 300, 'easeOutSine');
