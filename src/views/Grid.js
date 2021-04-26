@@ -1,8 +1,9 @@
 import { Group, LinearFilter, Mesh, Texture } from 'three';
 
+import { BasicMaterial } from 'alien.js/all';
+
 import { WorldController } from '../controllers/world/WorldController.js';
 import { GridCanvas } from './GridCanvas.js';
-import { BasicMaterial } from '../materials/BasicMaterial.js';
 
 export class Grid extends Group {
     constructor() {
@@ -23,9 +24,11 @@ export class Grid extends Group {
     }
 
     initMesh() {
+        const { quad } = WorldController;
+
         this.material = new BasicMaterial(this.texture);
 
-        this.mesh = new Mesh(WorldController.quad, this.material);
+        this.mesh = new Mesh(quad, this.material);
         this.mesh.frustumCulled = false;
 
         this.add(this.mesh);

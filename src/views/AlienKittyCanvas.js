@@ -122,7 +122,7 @@ export class AlienKittyCanvas extends Interface {
      */
 
     resize = () => {
-        const dpr = Stage.dpr;
+        const { dpr } = Stage;
 
         this.element.width = Math.round(this.width * dpr);
         this.element.height = Math.round(this.height * dpr);

@@ -28,16 +28,12 @@ export class Preloader {
     }
 
     static initStage() {
-        Stage.css({
-            overflowY: 'scroll'
-        });
+        Stage.css({ overflowY: 'scroll' });
     }
 
     static initScroll() {
         this.scroll = new Interface('.scroll');
-        this.scroll.css({
-            width: '100%'
-        });
+        this.scroll.css({ width: '100%' });
         Stage.add(this.scroll);
 
         Global.SCROLL = this.scroll;
@@ -66,7 +62,7 @@ export class Preloader {
         const { App } = await import('./App.js');
         this.app = App;
 
-        await this.app.init(this.scroll);
+        await this.app.init();
 
         this.loaded++;
         this.onComplete();

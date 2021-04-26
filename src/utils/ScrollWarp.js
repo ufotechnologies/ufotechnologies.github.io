@@ -21,9 +21,7 @@ export class ScrollWarp extends Component {
     }
 
     initHTML() {
-        this.object.css({
-            willChange: 'transform'
-        });
+        this.object.css({ willChange: 'transform' });
     }
 
     addListeners() {

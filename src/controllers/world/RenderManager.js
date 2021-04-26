@@ -1,9 +1,4 @@
-import {
-    Mesh,
-    OrthographicCamera,
-    Scene,
-    WebGLRenderTarget
-} from 'three';
+import { Mesh, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 
 import { Stage, clearTween, delayedCall, range, tween } from 'alien.js';
 
@@ -28,11 +23,13 @@ export class RenderManager {
     }
 
     static initRenderer() {
+        const { screenTriangle, time } = WorldController;
+
         // Fullscreen triangle
         this.screenScene = new Scene();
         this.screenCamera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-        this.screen = new Mesh(WorldController.screenTriangle);
+        this.screen = new Mesh(screenTriangle);
         this.screen.frustumCulled = false;
         this.screenScene.add(this.screen);
 
@@ -46,9 +43,11 @@ export class RenderManager {
 
         // Bad TV material
         this.badtv = new BadTVMaterial();
+        this.badtv.uniforms.uTime = time;
 
         // RGB material
         this.rgb = new RGBMaterial();
+        this.rgb.uniforms.uTime = time;
     }
 
     static addListeners() {

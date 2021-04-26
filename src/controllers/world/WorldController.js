@@ -1,12 +1,4 @@
-import {
-    Color,
-    OrthographicCamera,
-    PlaneBufferGeometry,
-    Scene,
-    Uniform,
-    Vector2,
-    WebGLRenderer
-} from 'three';
+import { Color, OrthographicCamera, PlaneBufferGeometry, Scene, Uniform, Vector2, WebGLRenderer } from 'three';
 
 import { getFullscreenTriangle } from 'alien.js';
 
@@ -18,7 +10,10 @@ export class WorldController {
     }
 
     static initWorld() {
-        this.renderer = new WebGLRenderer({ powerPreference: 'high-performance' });
+        this.renderer = new WebGLRenderer({
+            powerPreference: 'high-performance',
+            stencil: false
+        });
         this.element = this.renderer.domElement;
 
         // 2D scene

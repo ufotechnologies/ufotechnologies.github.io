@@ -6,7 +6,7 @@ import { Events } from '../config/Events.js';
 import { Grid } from './Grid.js';
 import { AlienKitty } from './AlienKitty.js';
 
-export class Scene extends Group {
+export class SceneView extends Group {
     constructor() {
         super();
 

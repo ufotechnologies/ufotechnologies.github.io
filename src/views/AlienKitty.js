@@ -1,18 +1,18 @@
 import { Group, LinearFilter, Mesh, Texture } from 'three';
 
-import { clearTween, tween } from 'alien.js';
+import { BasicMaterial, clearTween, tween } from 'alien.js/all';
 
 import { WorldController } from '../controllers/world/WorldController.js';
 import { AlienKittyCanvas } from './AlienKittyCanvas.js';
-import { BasicMaterial } from '../materials/BasicMaterial.js';
 
 export class AlienKitty extends Group {
     constructor() {
         super();
 
+        this.visible = false;
+
         this.width = 90;
         this.height = 86;
-        this.visible = false;
 
         this.initTexture();
         this.initMesh();
@@ -27,9 +27,11 @@ export class AlienKitty extends Group {
     }
 
     initMesh() {
+        const { quad } = WorldController;
+
         this.material = new BasicMaterial(this.texture);
 
-        this.mesh = new Mesh(WorldController.quad, this.material);
+        this.mesh = new Mesh(quad, this.material);
         this.mesh.frustumCulled = false;
         this.mesh.scale.set(this.width, this.height, 1);
 

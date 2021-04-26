@@ -4,7 +4,7 @@ import { Events } from '../config/Events.js';
 import { Data } from '../data/Data.js';
 import { WorldController } from './world/WorldController.js';
 import { RenderManager } from './world/RenderManager.js';
-import { Scene } from '../views/Scene.js';
+import { SceneView } from '../views/SceneView.js';
 import { Page } from '../views/Page.js';
 
 export class App {
@@ -18,8 +18,8 @@ export class App {
         this.addListeners();
         this.onResize();
 
-        await this.scene.ready();
-        this.scene.animateIn();
+        await this.view.ready();
+        this.view.animateIn();
 
         await wait(1000);
     }
@@ -36,8 +36,8 @@ export class App {
     }
 
     static initViews() {
-        this.scene = new Scene();
-        WorldController.scene.add(this.scene);
+        this.view = new SceneView();
+        WorldController.scene.add(this.view);
 
         this.page = new Page();
         Stage.add(this.page);
@@ -65,7 +65,7 @@ export class App {
 
         WorldController.resize(width, height, dpr);
 
-        this.scene.resize(width, height, dpr);
+        this.view.resize(width, height, dpr);
 
         RenderManager.resize(width, height, dpr);
 
@@ -75,7 +75,7 @@ export class App {
     static onUpdate = (time, delta, frame) => {
         WorldController.update(time, delta, frame);
 
-        this.scene.update(time, delta, frame);
+        this.view.update(time, delta, frame);
 
         RenderManager.update(time, delta, frame);
 

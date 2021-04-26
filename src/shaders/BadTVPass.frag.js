@@ -14,6 +14,6 @@ varying vec2 vUv;
 ${badtv}
 
 void main() {
-    gl_FragColor = getBadTV(tMap, vUv, uTime, uDistortion, uDistortion2, uRollSpeed);
+    gl_FragColor = getBadTV(tMap, vUv, uTime, uDistortion, uDistortion2, 0.5, uRollSpeed);
 }
 `;
