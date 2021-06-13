@@ -1,6 +1,6 @@
-import { Interface, Stage } from 'alien.js';
-
 import { Config } from '../config/Config.js';
+import { Interface } from '../utils/Interface.js';
+import { Stage } from '../controllers/Stage.js';
 
 export class NavLink extends Interface {
     constructor(data) {

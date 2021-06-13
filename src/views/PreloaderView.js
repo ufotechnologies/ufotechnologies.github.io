@@ -1,6 +1,5 @@
-import { Interface } from 'alien.js';
-
 import { Config } from '../config/Config.js';
+import { Interface } from '../utils/Interface.js';
 import { AlienKittyCanvas } from './AlienKittyCanvas.js';
 
 export class PreloaderView extends Interface {

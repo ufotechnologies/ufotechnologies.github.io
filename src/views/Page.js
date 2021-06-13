@@ -1,6 +1,5 @@
-import { Global, Interface } from 'alien.js';
-
-import { ScrollWarp } from '../utils/ScrollWarp.js';
+import { Interface } from '../utils/Interface.js';
+import { Smooth } from '../utils/Smooth.js';
 import { NavLayout } from './NavLayout.js';
 import { GridLayout } from './GridLayout.js';
 
@@ -29,8 +28,7 @@ export class Page extends Interface {
     }
 
     addListeners() {
-        const warp = new ScrollWarp(this, Global.SCROLL);
-        warp.multiplier = 3;
+        this.smooth = new Smooth(this);
     }
 
     /**
@@ -47,5 +45,7 @@ export class Page extends Interface {
     };
 
     animateIn = () => {
+        this.nav.animateIn();
+        this.smooth.enable();
     };
 }

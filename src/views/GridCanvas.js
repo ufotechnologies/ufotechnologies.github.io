@@ -1,4 +1,4 @@
-import { Interface } from 'alien.js';
+import { Interface } from '../utils/Interface.js';
 
 export class GridCanvas extends Interface {
     constructor() {

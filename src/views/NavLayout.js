@@ -1,6 +1,6 @@
-import { Interface, Stage } from 'alien.js';
-
 import { Config } from '../config/Config.js';
+import { Interface } from '../utils/Interface.js';
+import { Stage } from '../controllers/Stage.js';
 import { NavHeadline } from './NavHeadline.js';
 import { NavLinks } from './NavLinks.js';
 

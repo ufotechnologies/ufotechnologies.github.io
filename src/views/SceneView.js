@@ -1,10 +1,11 @@
 import { Group } from 'three';
 
-import { Stage, range } from 'alien.js';
-
 import { Events } from '../config/Events.js';
+import { Stage } from '../controllers/Stage.js';
 import { Grid } from './Grid.js';
 import { AlienKitty } from './AlienKitty.js';
+
+import { range } from '../utils/Utils.js';
 
 export class SceneView extends Group {
     constructor() {

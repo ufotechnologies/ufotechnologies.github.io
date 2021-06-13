@@ -1,7 +1,12 @@
-import { AssetLoader, Assets, Device, FontLoader, Global, Interface, Stage, wait } from 'alien.js';
-
 import { Config } from '../config/Config.js';
+import { Device } from '../config/Device.js';
+import { Assets } from '../loaders/Assets.js';
+import { FontLoader } from '../loaders/FontLoader.js';
+import { AssetLoader } from '../loaders/AssetLoader.js';
+import { Stage } from './Stage.js';
 import { PreloaderView } from '../views/PreloaderView.js';
+
+import { wait } from '../tween/Tween.js';
 
 export class Preloader {
     static init() {
@@ -21,24 +26,8 @@ export class Preloader {
 
         this.loaded = 0;
 
-        this.initStage();
-        this.initScroll();
         this.initViews();
         this.initLoader();
-    }
-
-    static initStage() {
-        Stage.css({ overflowY: 'scroll' });
-    }
-
-    static initScroll() {
-        this.scroll = new Interface('.scroll');
-        this.scroll.css({ width: '100%' });
-        Stage.add(this.scroll);
-
-        Global.SCROLL = this.scroll;
-
-        history.scrollRestoration = 'manual';
     }
 
     static async initViews() {

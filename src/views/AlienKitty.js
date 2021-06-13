@@ -1,9 +1,10 @@
 import { Group, LinearFilter, Mesh, Texture } from 'three';
 
-import { BasicMaterial, clearTween, tween } from 'alien.js/all';
-
 import { WorldController } from '../controllers/world/WorldController.js';
+import { BasicMaterial } from '../materials/BasicMaterial.js';
 import { AlienKittyCanvas } from './AlienKittyCanvas.js';
+
+import { clearTween, tween } from '../tween/Tween.js';
 
 export class AlienKitty extends Group {
     constructor() {
