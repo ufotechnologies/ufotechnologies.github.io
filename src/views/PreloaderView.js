@@ -1,6 +1,5 @@
-import { Interface } from 'alien.js';
-
 import { Config } from '../config/Config.js';
+import { Interface } from '../utils/Interface.js';
 import { AlienKittyCanvas } from './AlienKittyCanvas.js';
 
 export class PreloaderView extends Interface {
@@ -26,12 +25,9 @@ export class PreloaderView extends Interface {
 
     initViews() {
         this.alienkitty = new AlienKittyCanvas();
-        this.alienkitty.css({
-            y: this.alienkitty.height
-        });
 
-        this.wrapper = new Interface('.alienkitty');
-        this.wrapper.css({
+        this.container = new Interface('.container');
+        this.container.css({
             left: '50%',
             top: '50%',
             width: this.alienkitty.width,
@@ -40,8 +36,14 @@ export class PreloaderView extends Interface {
             marginTop: -this.alienkitty.height / 2 - 65,
             overflow: 'hidden'
         });
+        this.add(this.container);
+
+        this.wrapper = new Interface('.wrapper');
+        this.wrapper.css({
+            y: this.alienkitty.height
+        });
         this.wrapper.add(this.alienkitty);
-        this.add(this.wrapper);
+        this.container.add(this.wrapper);
     }
 
     /**
@@ -51,7 +53,7 @@ export class PreloaderView extends Interface {
     animateIn = async () => {
         await this.alienkitty.ready();
         this.alienkitty.animateIn();
-        await this.alienkitty.tween({ y: 0 }, 1000, 'easeOutCubic', 500);
+        await this.wrapper.tween({ y: 0 }, 1000, 'easeOutCubic', 500);
     };
 
     animateOut = () => this.tween({ opacity: 0 }, 50, 'easeInOutExpo');

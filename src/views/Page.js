@@ -1,5 +1,5 @@
-import { Global, Interface } from 'alien.js';
-
+import { Global } from '../config/Global.js';
+import { Interface } from '../utils/Interface.js';
 import { ScrollWarp } from '../utils/ScrollWarp.js';
 import { NavLayout } from './NavLayout.js';
 import { GridLayout } from './GridLayout.js';
@@ -47,5 +47,6 @@ export class Page extends Interface {
     };
 
     animateIn = () => {
+        this.nav.animateIn();
     };
 }

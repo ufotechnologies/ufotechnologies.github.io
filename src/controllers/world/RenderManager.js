@@ -1,11 +1,13 @@
 import { Mesh, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 
-import { Stage, clearTween, delayedCall, range, tween } from 'alien.js';
-
 import { Events } from '../../config/Events.js';
 import { WorldController } from './WorldController.js';
+import { Stage } from '../Stage.js';
 import { BadTVMaterial } from '../../materials/BadTVMaterial.js';
 import { RGBMaterial } from '../../materials/RGBMaterial.js';
+
+import { clearTween, delayedCall, tween } from '../../tween/Tween.js';
+import { range } from '../../utils/Utils.js';
 
 export class RenderManager {
     static init(renderer, scene, camera) {

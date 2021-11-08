@@ -1,4 +1,4 @@
-import rgbshift from 'alien.js/src/shaders/modules/rgbshift/rgbshift.glsl.js';
+import rgbshift from './modules/rgbshift/rgbshift.glsl.js';
 
 export default /* glsl */`
 precision highp float;
@@ -19,6 +19,7 @@ void main() {
     // float amount = cos(uTime) * 0.02;
     // float amount = (0.002 * cos(uTime)) + 0.0002;
     float amount = (uDistortion * cos(uTime)) + 0.0002;
+
     gl_FragColor = getRGB(tMap, vUv, angle, amount);
 }
 `;

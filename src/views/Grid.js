@@ -1,8 +1,7 @@
 import { Group, LinearFilter, Mesh, Texture } from 'three';
 
-import { BasicMaterial } from 'alien.js/all';
-
 import { WorldController } from '../controllers/world/WorldController.js';
+import { BasicMaterial } from '../materials/BasicMaterial.js';
 import { GridCanvas } from './GridCanvas.js';
 
 export class Grid extends Group {

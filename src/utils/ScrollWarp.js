@@ -1,6 +1,9 @@
-import { Component, Stage, defer, ticker } from 'alien.js';
-
 import { Events } from '../config/Events.js';
+import { Component } from './Component.js';
+import { Stage } from '../controllers/Stage.js';
+
+import { ticker } from '../tween/Ticker.js';
+import { defer } from '../tween/Tween.js';
 
 export class ScrollWarp extends Component {
     constructor(object, scroll) {
@@ -39,11 +42,9 @@ export class ScrollWarp extends Component {
      */
 
     onResize = () => {
-        const { height } = this.object.bounds();
+        const { height } = this.object.element.getBoundingClientRect();
 
-        this.inner.css({
-            height
-        });
+        this.inner.css({ height });
     };
 
     onUpdate = () => {

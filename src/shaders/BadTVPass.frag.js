@@ -1,4 +1,4 @@
-import badtv from 'alien.js/src/shaders/modules/badtv/badtv.glsl.js';
+import badtv from './modules/badtv/badtv.glsl.js';
 
 export default /* glsl */`
 precision highp float;

@@ -1,5 +1,4 @@
-import { Interface } from 'alien.js';
-
+import { Interface } from '../utils/Interface.js';
 import { Data } from '../data/Data.js';
 
 export class NavHeadline extends Interface {

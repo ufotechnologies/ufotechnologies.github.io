@@ -1,8 +1,8 @@
 import { Color, OrthographicCamera, PlaneBufferGeometry, Scene, Uniform, Vector2, WebGLRenderer } from 'three';
 
-import { getFullscreenTriangle } from 'alien.js';
-
 import { Config } from '../../config/Config.js';
+
+import { getFullscreenTriangle } from '../../utils/world/Utils3D.js';
 
 export class WorldController {
     static init() {

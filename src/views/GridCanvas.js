@@ -1,4 +1,4 @@
-import { Interface } from 'alien.js';
+import { Interface } from '../utils/Interface.js';
 
 export class GridCanvas extends Interface {
     constructor() {
@@ -14,7 +14,7 @@ export class GridCanvas extends Interface {
 
     initDots() {
         this.dots = {
-            fillStyle: 'rgba(255, 255, 255, 0.15)'
+            fillStyle: 'rgba(255, 255, 255, 0.25)'
         };
     }
 

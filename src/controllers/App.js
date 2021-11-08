@@ -1,11 +1,15 @@
-import { Assets, Interface, Stage, ticker, wait } from 'alien.js';
-
 import { Events } from '../config/Events.js';
+import { Assets } from '../loaders/Assets.js';
+import { Interface } from '../utils/Interface.js';
 import { Data } from '../data/Data.js';
 import { WorldController } from './world/WorldController.js';
 import { RenderManager } from './world/RenderManager.js';
+import { Stage } from './Stage.js';
 import { SceneView } from '../views/SceneView.js';
 import { Page } from '../views/Page.js';
+
+import { ticker } from '../tween/Ticker.js';
+import { wait } from '../tween/Tween.js';
 
 export class App {
     static async init() {
@@ -64,22 +68,16 @@ export class App {
         const dpr = Stage.dpr;
 
         WorldController.resize(width, height, dpr);
-
         this.view.resize(width, height, dpr);
-
         RenderManager.resize(width, height, dpr);
-
-        this.page.resize(width, height, dpr);
+        this.page.resize();
     };
 
     static onUpdate = (time, delta, frame) => {
         WorldController.update(time, delta, frame);
-
         this.view.update(time, delta, frame);
-
-        RenderManager.update(time, delta, frame);
-
-        this.page.update(time, delta, frame);
+        RenderManager.update();
+        this.page.update();
     };
 
     /**
@@ -87,7 +85,7 @@ export class App {
      */
 
     static start = async () => {
-        this.page.nav.animateIn();
+        this.page.animateIn();
 
         Stage.events.emit(Events.GLITCH_LOADER);
     };
