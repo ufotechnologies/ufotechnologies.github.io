@@ -28,6 +28,11 @@
             "group": "Projects"
         },
         {
+            "title": "Multiuser Blocks",
+            "description": "An experiment to combine physics, UI and data visualization elements in a multiuser environment",
+            "link": "https://multiuser-blocks.glitch.me/"
+        },
+        {
             "title": "Multiuser Fluid",
             "description": "An experiment to combine UI and data visualization elements in a multiuser environment",
             "link": "https://multiuser-fluid.glitch.me/"
@@ -75,7 +80,11 @@
             "group": "Honours & Awards"
         },
         {
-            "description": "Web development veteran of 27 years in marketing and advertising with over 35 honours and awards, including FWA, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+            "description": "Web development veteran of 28 years in marketing and advertising with over 35 honours and awards, including FWAs, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+        },
+        {
+            "title": "FWA of the Day: Multiuser Blocks",
+            "description": "2nd March 2022"
         },
         {
             "title": "Awwwards: Multiuser Fluid",
