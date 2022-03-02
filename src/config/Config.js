@@ -3,9 +3,4 @@ export class Config {
     static UI_COLOR = 'rgba(255, 255, 255, 0.94)';
 
     static BREAKPOINT = 1000;
-
-    static CDN = '';
-
-    static ASSETS = [
-    ];
 }

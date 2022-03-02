@@ -1,4 +1,4 @@
-import { Color, OrthographicCamera, PlaneBufferGeometry, Scene, Uniform, Vector2, WebGLRenderer } from 'three';
+import { Color, OrthographicCamera, PlaneGeometry, Scene, Uniform, Vector2, WebGLRenderer } from 'three';
 
 import { Config } from '../../config/Config.js';
 
@@ -22,7 +22,7 @@ export class WorldController {
         this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
         // Global geometries
-        this.quad = new PlaneBufferGeometry(1, 1);
+        this.quad = new PlaneGeometry(1, 1);
         this.quad.translate(0.5, -0.5, 0);
         this.screenTriangle = getFullscreenTriangle();
 
@@ -38,7 +38,6 @@ export class WorldController {
      */
 
     static resize = (width, height, dpr) => {
-        // 2D scene
         this.camera.left = -width / 2;
         this.camera.right = width / 2;
         this.camera.top = height / 2;

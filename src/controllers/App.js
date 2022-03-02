@@ -63,9 +63,7 @@ export class App {
      */
 
     static onResize = () => {
-        const width = Stage.width;
-        const height = Stage.height;
-        const dpr = Stage.dpr;
+        const { width, height, dpr } = Stage;
 
         WorldController.resize(width, height, dpr);
         this.view.resize(width, height, dpr);
