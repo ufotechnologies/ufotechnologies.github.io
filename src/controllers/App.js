@@ -4,7 +4,7 @@ import { Interface } from '../utils/Interface.js';
 import { Data } from '../data/Data.js';
 import { WorldController } from './world/WorldController.js';
 import { RenderManager } from './world/RenderManager.js';
-import { Stage } from './Stage.js';
+import { Stage } from '../utils/Stage.js';
 import { SceneView } from '../views/SceneView.js';
 import { Page } from '../views/Page.js';
 

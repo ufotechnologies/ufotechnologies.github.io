@@ -14,7 +14,7 @@ export class GridCanvas extends Interface {
 
     initDots() {
         this.dots = {
-            fillStyle: 'rgba(255, 255, 255, 0.25)'
+            fillStyle: 'rgba(255, 255, 255, 0.2)'
         };
     }
 

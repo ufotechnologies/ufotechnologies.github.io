@@ -1,6 +1,6 @@
 import { Events } from '../config/Events.js';
 import { Interface } from '../utils/Interface.js';
-import { Stage } from '../controllers/Stage.js';
+import { Stage } from '../utils/Stage.js';
 
 export class GridLayout extends Interface {
     constructor() {
@@ -29,7 +29,6 @@ export class GridLayout extends Interface {
     };
 
     update = () => {
-        // this.pos = window.scrollY;
         this.pos = Stage.element.scrollTop;
         this.delta = this.pos - this.last;
         this.last = this.pos;

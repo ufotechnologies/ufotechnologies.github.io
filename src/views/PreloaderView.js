@@ -1,4 +1,3 @@
-import { Config } from '../config/Config.js';
 import { Interface } from '../utils/Interface.js';
 import { AlienKittyCanvas } from './AlienKittyCanvas.js';
 
@@ -17,7 +16,7 @@ export class PreloaderView extends Interface {
             top: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: Config.BG_COLOR,
+            backgroundColor: 'var(--bg-color)',
             zIndex: 1,
             pointerEvents: 'none'
         });

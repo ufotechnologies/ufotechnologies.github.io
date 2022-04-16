@@ -5,7 +5,7 @@ import { Assets } from '../loaders/Assets.js';
 import { FontLoader } from '../loaders/FontLoader.js';
 import { AssetLoader } from '../loaders/AssetLoader.js';
 import { Interface } from '../utils/Interface.js';
-import { Stage } from './Stage.js';
+import { Stage } from '../utils/Stage.js';
 import { PreloaderView } from '../views/PreloaderView.js';
 
 import { wait } from '../tween/Tween.js';
@@ -35,6 +35,11 @@ export class Preloader {
     }
 
     static initStage() {
+        Stage.init(document.querySelector('#root'));
+
+        Stage.root = document.querySelector(':root');
+        Stage.rootStyle = getComputedStyle(Stage.root);
+
         Stage.css({ overflowY: 'scroll' });
     }
 
@@ -44,8 +49,6 @@ export class Preloader {
         Stage.add(this.scroll);
 
         Global.SCROLL = this.scroll;
-
-        history.scrollRestoration = 'manual';
     }
 
     static async initViews() {

@@ -2,7 +2,9 @@
  * @author pschroen / https://ufo.ai/
  */
 
-import { LinearFilter, MathUtils, RGBAFormat, RGBFormat, Texture, sRGBEncoding } from 'three';
+import { LinearFilter, Texture } from 'three';
+
+import { isPowerOfTwo } from 'three/src/math/MathUtils.js';
 
 import { Device } from '../../config/Device.js';
 import { Thread } from '../../utils/Thread.js';
@@ -69,10 +71,8 @@ export class TextureLoader extends Loader {
                 }
 
                 texture.image = image;
-                texture.format = /jpe?g/.test(path) ? RGBFormat : RGBAFormat;
-                texture.encoding = sRGBEncoding;
 
-                if (!MathUtils.isPowerOfTwo(image.width) || !MathUtils.isPowerOfTwo(image.height)) {
+                if (!isPowerOfTwo(image.width) || !isPowerOfTwo(image.height)) {
                     texture.minFilter = LinearFilter;
                     texture.generateMipmaps = false;
                 }

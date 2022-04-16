@@ -1,11 +1,11 @@
 import { Group } from 'three';
 
 import { Events } from '../config/Events.js';
-import { Stage } from '../controllers/Stage.js';
+import { Stage } from '../utils/Stage.js';
 import { Grid } from './Grid.js';
 import { AlienKitty } from './AlienKitty.js';
 
-import { range } from '../utils/Utils.js';
+import { mapLinear } from '../utils/Utils.js';
 
 export class SceneView extends Group {
     constructor() {
@@ -34,7 +34,7 @@ export class SceneView extends Group {
      */
 
     onGlitchIn = ({ delta }) => {
-        const time = range(delta, 0, 400, 300, 50);
+        const time = mapLinear(delta, 0, 400, 300, 50);
 
         this.alienkitty.showAlienKitty(time);
     };

@@ -1,6 +1,6 @@
 import { Color, OrthographicCamera, PlaneGeometry, Scene, Uniform, Vector2, WebGLRenderer } from 'three';
 
-import { Config } from '../../config/Config.js';
+import { Stage } from '../../utils/Stage.js';
 
 import { getFullscreenTriangle } from '../../utils/world/Utils3D.js';
 
@@ -18,7 +18,7 @@ export class WorldController {
 
         // 2D scene
         this.scene = new Scene();
-        this.scene.background = new Color(Config.BG_COLOR);
+        this.scene.background = new Color(Stage.rootStyle.getPropertyValue('--bg-color').trim());
         this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
         // Global geometries

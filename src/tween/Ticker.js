@@ -9,11 +9,13 @@ if (typeof window !== 'undefined') {
     RequestFrame = window.requestAnimationFrame;
     CancelFrame = window.cancelAnimationFrame;
 } else {
-    const start = performance.now();
+    const startTime = performance.now();
     const timestep = 1000 / 60;
 
     RequestFrame = callback => {
-        return setTimeout(() => callback(performance.now() - start), timestep);
+        return setTimeout(() => {
+            callback(performance.now() - startTime);
+        }, timestep);
     };
 
     CancelFrame = clearTimeout;
@@ -27,8 +29,6 @@ export class Ticker {
         this.delta = 0;
         this.frame = 0;
         this.isAnimating = false;
-
-        this.start();
     }
 
     onTick = time => {

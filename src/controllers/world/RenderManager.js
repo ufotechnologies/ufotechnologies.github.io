@@ -2,12 +2,12 @@ import { Mesh, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 
 import { Events } from '../../config/Events.js';
 import { WorldController } from './WorldController.js';
-import { Stage } from '../Stage.js';
+import { Stage } from '../../utils/Stage.js';
 import { BadTVMaterial } from '../../materials/BadTVMaterial.js';
 import { RGBMaterial } from '../../materials/RGBMaterial.js';
 
 import { clearTween, delayedCall, tween } from '../../tween/Tween.js';
-import { range } from '../../utils/Utils.js';
+import { mapLinear } from '../../utils/Utils.js';
 
 export class RenderManager {
     static init(renderer, scene, camera) {
@@ -63,7 +63,7 @@ export class RenderManager {
      */
 
     static onGlitchIn = ({ delta }) => {
-        const time = range(delta, 0, 400, 300, 50);
+        const time = mapLinear(delta, 0, 400, 300, 50);
 
         clearTween(this.badtv.uniforms.uDistortion);
         clearTween(this.badtv.uniforms.uDistortion2);
@@ -72,9 +72,9 @@ export class RenderManager {
 
         this.enabled = true;
 
-        tween(this.badtv.uniforms.uDistortion, { value: range(delta, 0, 400, 0, 8) * this.multiplier }, time, 'easeInOutExpo');
-        tween(this.badtv.uniforms.uDistortion2, { value: range(delta, 0, 400, 0, 2) * this.multiplier }, time, 'easeInOutExpo');
-        tween(this.rgb.uniforms.uDistortion, { value: range(delta, 0, 400, 0, 0.02) * this.multiplier }, time, 'easeInOutExpo');
+        tween(this.badtv.uniforms.uDistortion, { value: mapLinear(delta, 0, 400, 0, 8) * this.multiplier }, time, 'easeInOutExpo');
+        tween(this.badtv.uniforms.uDistortion2, { value: mapLinear(delta, 0, 400, 0, 2) * this.multiplier }, time, 'easeInOutExpo');
+        tween(this.rgb.uniforms.uDistortion, { value: mapLinear(delta, 0, 400, 0, 0.02) * this.multiplier }, time, 'easeInOutExpo');
 
         this.timeout = delayedCall(time, () => {
             tween(this.badtv.uniforms.uDistortion, { value: 1 * this.multiplier }, 300, 'easeInOutExpo');

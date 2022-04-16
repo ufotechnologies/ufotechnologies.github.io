@@ -1,6 +1,7 @@
 import { Config } from '../config/Config.js';
 import { Interface } from '../utils/Interface.js';
-import { Stage } from '../controllers/Stage.js';
+import { Stage } from '../utils/Stage.js';
+import { NavLinkUnderline } from './NavLinkUnderline.js';
 
 export class NavLink extends Interface {
     constructor(data) {
@@ -53,6 +54,9 @@ export class NavLink extends Interface {
             });
             this.description.html(data.description);
             this.wrapper.add(this.description);
+
+            this.descriptionLinks = this.description.element.querySelectorAll('a');
+            this.descriptionLinks.forEach(element => new NavLinkUnderline(element));
 
             if (data.link) {
                 this.line = new Interface('.line');

@@ -1,6 +1,6 @@
 import { Events } from '../config/Events.js';
 import { Component } from './Component.js';
-import { Stage } from '../controllers/Stage.js';
+import { Stage } from './Stage.js';
 
 import { ticker } from '../tween/Ticker.js';
 import { defer } from '../tween/Tween.js';
@@ -15,7 +15,7 @@ export class ScrollWarp extends Component {
         this.pos = 0;
         this.last = 0;
         this.delta = 0;
-        this.speed = 0.15;
+        this.lerpSpeed = 0.15;
         this.multiplier = 1;
 
         this.initHTML();
@@ -25,6 +25,8 @@ export class ScrollWarp extends Component {
 
     initHTML() {
         this.object.css({ willChange: 'transform' });
+
+        history.scrollRestoration = 'manual';
     }
 
     addListeners() {
@@ -41,14 +43,16 @@ export class ScrollWarp extends Component {
      * Event handlers
      */
 
-    onResize = () => {
+    onResize = async () => {
+        await defer();
+
         const { height } = this.object.element.getBoundingClientRect();
 
         this.inner.css({ height });
     };
 
     onUpdate = () => {
-        this.pos += (this.container.scrollTop - this.pos) * this.speed;
+        this.pos += (this.container.scrollTop - this.pos) * this.lerpSpeed;
         this.delta = this.pos - this.last;
         this.last = this.pos;
 
@@ -68,8 +72,7 @@ export class ScrollWarp extends Component {
 
     enable = () => {
         this.addListeners();
-
-        defer(this.onResize);
+        this.onResize();
     };
 
     disable = () => {

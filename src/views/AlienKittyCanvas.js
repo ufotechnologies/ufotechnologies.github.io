@@ -1,10 +1,10 @@
 import { Assets } from '../loaders/Assets.js';
 import { Interface } from '../utils/Interface.js';
-import { Stage } from '../controllers/Stage.js';
+import { Stage } from '../utils/Stage.js';
 
 import { ticker } from '../tween/Ticker.js';
 import { clearTween, tween } from '../tween/Tween.js';
-import { headsTails, radians, random } from '../utils/Utils.js';
+import { degToRad, headsTails, randInt } from '../utils/Utils.js';
 
 export class AlienKittyCanvas extends Interface {
     constructor() {
@@ -75,7 +75,7 @@ export class AlienKittyCanvas extends Interface {
 
         context.save();
         context.translate(object.x + object.pX, object.y + object.pY);
-        context.rotate(radians(object.rotation));
+        context.rotate(degToRad(object.rotation));
         context.scale(object.scaleX, object.scaleY);
         context.globalAlpha = object.opacity;
         context.drawImage(object.image, -object.pX, -object.pY, object.width, object.height);
@@ -91,7 +91,7 @@ export class AlienKittyCanvas extends Interface {
     }
 
     blink() {
-        this.delayedCall(random(0, 10000), headsTails(this.onBlink1, this.onBlink2));
+        this.delayedCall(randInt(0, 10000), headsTails(this.onBlink1, this.onBlink2));
     }
 
     /**

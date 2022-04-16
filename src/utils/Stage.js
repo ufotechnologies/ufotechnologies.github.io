@@ -1,19 +1,27 @@
+/**
+ * @author pschroen / https://ufo.ai/
+ */
+
 import { Events } from '../config/Events.js';
-import { Interface } from '../utils/Interface.js';
+import { Interface } from './Interface.js';
+
+import { ticker } from '../tween/Ticker.js';
 
 export var Stage;
 
 if (typeof window !== 'undefined') {
-    Stage = new Interface(document.getElementById('root'));
+    Stage = new Interface(null, null);
 
-    window.addEventListener('popstate', onPopState);
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-    window.addEventListener('keypress', onKeyPress);
-    window.addEventListener('resize', onResize);
-    document.addEventListener('visibilitychange', onVisibility);
+    function addListeners() {
+        window.addEventListener('popstate', onPopState);
+        window.addEventListener('keydown', onKeyDown);
+        window.addEventListener('keyup', onKeyUp);
+        window.addEventListener('keypress', onKeyPress);
+        window.addEventListener('resize', onResize);
+        document.addEventListener('visibilitychange', onVisibility);
 
-    onResize();
+        ticker.start();
+    }
 
     /**
      * Event handlers
@@ -53,6 +61,13 @@ if (typeof window !== 'undefined') {
     /**
      * Public methods
      */
+
+    Stage.init = element => {
+        Stage.element = element;
+
+        addListeners();
+        onResize();
+    };
 
     Stage.setPath = path => {
         history.pushState(null, null, path);
