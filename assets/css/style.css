@@ -1,3 +1,11 @@
+:root {
+    --bg-color: #111;
+    --ui-color: rgba(255, 255, 255, 0.94);
+    --ui-color-triplet: 255, 255, 255;
+    --ui-selection-bg-color: rgba(255, 255, 255, 0.94);
+    --ui-selection-color: #000;
+}
+
 html, body, #root {
     width: 100%;
     height: 100%;
@@ -11,8 +19,8 @@ body {
     font-weight: 400;
     font-size: 14px;
     line-height: 1.5;
-    background: #0e0e0e;
-    color: rgba(255, 255, 255, 0.94);
+    background-color: var(--bg-color);
+    color: var(--ui-color);
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 }
@@ -37,16 +45,40 @@ body {
 #root a, #root a:hover, #root a:focus {
     font-weight: 600;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.94);
+    color: var(--ui-color);
     padding-bottom: 3px;
-    border-bottom: 2px solid transparent;
-}
-
-#root a:hover, #root a:focus {
-    border-bottom-color: rgba(255, 255, 255, 0.94);
 }
 
 ::selection {
-    background: rgba(255, 255, 255, 0.94);
-    color: #000;
+    background-color: var(--ui-selection-bg-color);
+    color: var(--ui-selection-color);
+}
+
+.grain {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200vh;
+    background: transparent url(../images/noise-transparent.png) repeat 0 0;
+    background-repeat: repeat;
+    animation: grain 1.5s steps(6) infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes grain {
+    0% { transform: translate(0, 0) }
+    10% { transform: translate(-5%, -5%) }
+    20% { transform: translate(-10%, 5%) }
+    30% { transform: translate(5%, -10%) }
+    40% { transform: translate(-5%, 15%) }
+    50% { transform: translate(-10%, 5%) }
+    60% { transform: translate(15%, 0) }
+    70% { transform: translate(0, 10%) }
+    80% { transform: translate(-15%, 0) }
+    90% { transform: translate(10%, 5%) }
+    100% { transform: translate(5%, 0) }
 }
