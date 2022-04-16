@@ -16,7 +16,8 @@ export class Page extends Interface {
 
     initHTML() {
         this.css({
-            width: '100%'
+            width: '100%',
+            zIndex: 3
         });
     }
 
