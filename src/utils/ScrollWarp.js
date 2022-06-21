@@ -62,7 +62,7 @@ export class ScrollWarp extends Component {
 
         this.object.css({
             y: -Math.round(this.pos / 2),
-            skewY: this.delta / window.innerHeight * 10 * this.multiplier
+            skewY: (this.delta / window.innerWidth) * 10 * this.multiplier
         });
     };
 

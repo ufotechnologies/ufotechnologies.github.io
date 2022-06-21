@@ -91,7 +91,7 @@ export class NavLink extends Interface {
 
     onClick = () => {
         open(this.link, '_self');
-        //Stage.setPath(this.link);
+        // Stage.setPath(this.link);
     };
 
     /**

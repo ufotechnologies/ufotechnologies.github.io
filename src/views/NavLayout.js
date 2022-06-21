@@ -61,7 +61,4 @@ export class NavLayout extends Interface {
         this.headline.animateIn();
         this.links.animateIn();
     };
-
-    animateOut = () => {
-    };
 }
