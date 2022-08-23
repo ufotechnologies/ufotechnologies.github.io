@@ -71,6 +71,11 @@
             "group": "Talks"
         },
         {
+            "title": "Alien.js & ES2022 modules",
+            "description": "Creative Coding Meetup Toronto 2022",
+            "link": "https://www.meetup.com/toronto-creative-coding/events/287286703/"
+        },
+        {
             "title": "Icons are overrated",
             "description": "Web Unleashed 2017",
             "link": "https://fitc.ca/presentation/icons-are-overrated/"
