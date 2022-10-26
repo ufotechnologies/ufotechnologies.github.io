@@ -71,6 +71,11 @@
             "group": "Talks"
         },
         {
+            "title": "Create Interactive 3D Web Experiences With Alien.js",
+            "description": "Web Unleashed 2022",
+            "link": "https://fitc.ca/presentation/create-interactive-3d-web-experiences-with-alien-js/"
+        },
+        {
             "title": "Alien.js & ES2022 modules",
             "description": "Creative Coding Meetup Toronto 2022",
             "link": "https://reflektordigital.notion.site/Toronto-Creative-Coding-Aug-16-22-with-Patrick-Schroen-9e742f4ccf4c43f6be65f0b42a84dbee"
