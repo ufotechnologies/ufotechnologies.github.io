@@ -9,6 +9,11 @@
             "group": "Work"
         },
         {
+            "title": "Angular v17 homepage animation",
+            "description": "Using OGL and signed distance fields to create the 2D animations of the logo, lines and headings with the vibrant gradients of the new Angular branding",
+            "link": "https://angular.dev/"
+        },
+        {
             "title": "#PetMe",
             "description": "A machine learning Instagram bot for PetRescue",
             "link": "https://www.petme.org.au/"
@@ -21,7 +26,7 @@
         {
             "title": "#RaiseThePride",
             "description": "A motorized flag pole controlled by Twitter sentiment for Toronto PFLAG",
-            "link": "http://raisethepride.ca/"
+            "link": "https://www.commarts.com/project/23612/raisethepride"
         },
         {},
         {
@@ -38,9 +43,14 @@
             "link": "https://multiuser-fluid.glitch.me/"
         },
         {
+            "title": "Space.js",
+            "description": "Minimal monospace UI",
+            "link": "https://space.js.org/"
+        },
+        {
             "title": "Alien.js",
-            "description": "Future web pattern",
-            "link": "https://alien.js.org/"
+            "description": "MVC design pattern",
+            "link": "https://github.com/alienkitty/alien.js"
         },
         {
             "title": "Amp - Music Bot",
@@ -90,7 +100,15 @@
             "group": "Honours & Awards"
         },
         {
-            "description": "Web development veteran of 28 years in marketing and advertising with over 35 honours and awards, including FWAs, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+            "description": "Web development veteran spanning 3 decades in marketing and advertising with over 46 honours and awards, including FWAs, Webbys, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+        },
+        {
+            "title": "FWA of the Day: RSTLSS",
+            "description": "3rd March 2023"
+        },
+        {
+            "title": "Webby Winner: Sundance New Frontier",
+            "description": "Virtual & Remote, Arts & Culture 2022"
         },
         {
             "title": "Awwwards: Multiuser Blocks",
