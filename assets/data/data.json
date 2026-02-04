@@ -54,7 +54,7 @@
         },
         {
             "title": "Alien.js",
-            "description": "MVC design pattern",
+            "description": "MVC design pattern and render pipeline",
             "link": "https://github.com/alienkitty/alien.js"
         },
         {
