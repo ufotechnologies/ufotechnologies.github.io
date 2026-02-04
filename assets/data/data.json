@@ -33,6 +33,11 @@
             "group": "Projects"
         },
         {
+            "title": "Mars demo",
+            "description": "A cinematic Mars demo featuring high quality cubemaps with 2k faces",
+            "link": "https://space.js.org/examples/mars/"
+        },
+        {
             "title": "Multiuser Blocks",
             "description": "An experiment to combine physics, UI and data visualization elements in a multiuser environment",
             "link": "https://multiuser-blocks.cyberspace.app/"
@@ -100,7 +105,11 @@
             "group": "Honours & Awards"
         },
         {
-            "description": "Web development veteran spanning 3 decades in marketing and advertising with over 47 honours and awards, including FWAs, Webbys, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+            "description": "Web development veteran spanning 3 decades in marketing and advertising with over 48 honours and awards, including FWAs, Webbys, Cannes Lions, CMAs, AToMiC and Applied Arts. Some recent highlights:"
+        },
+        {
+            "title": "FWA of the Day: Mars demo",
+            "description": "22nd January 2026"
         },
         {
             "title": "Website Of The Day: Concrete",
