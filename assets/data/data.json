@@ -9,6 +9,11 @@
             "group": "Work"
         },
         {
+            "title": "Kythe",
+            "description": "An iOS social networking app that uses AI to generate conversation starters, called “Qs”, that are fun, interesting and thought provoking",
+            "link": "https://apps.apple.com/app/kythe-connect/id6752863741"
+        },
+        {
             "title": "Angular v17 homepage animation",
             "description": "Using OGL and signed distance fields to create the 2D animations of the logo, lines and headings with the vibrant gradients of the new Angular branding",
             "link": "https://angular.dev/"
